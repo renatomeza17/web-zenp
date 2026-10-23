@@ -1,0 +1,65 @@
+---
+import { categorias, whatsappUrl } from '../data/tienda';
+---
+<section class="hero container max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 min-h-[590px] min-[1500px]:min-h-[650px] max-[1100px]:min-h-[540px] items-center py-8 gap-8 md:gap-12 px-4 sm:px-6 lg:px-8">
+      
+      <!-- Columna Texto -->
+      <div class="hero-copy">
+        <p class="text-[10px] max-[760px]:text-[9px] uppercase tracking-[1.8px] font-semibold text-[var(--muted)] mb-4.5 flex items-center">
+          <span class="inline-block bg-[var(--green)] w-1.5 h-1.5 rounded-full mr-1.5"></span>
+          Sneakers. Apple. Tech.
+        </p>
+
+        <h1 class="font-['Space_Grotesk',sans-serif] text-6xl sm:text-7xl lg:text-8xl font-medium tracking-tighter leading-[1.03] text-zinc-900">
+          Lo que va<br />contigo<span class="text-[var(--green)]">.</span>
+        </h1>
+
+        <p class="text-sm sm:text-base leading-relaxed text-[#676b65] mt-5 sm:mt-6">
+          Ese par que buscabas. El iPhone que quieres.<br/>Un nuevo nivel para tu setup.
+        </p>
+
+        <div class="flex items-center gap-4 sm:gap-6 mt-6 sm:mt-7 flex-wrap">
+          <a 
+            class="inline-flex items-center justify-center gap-4 py-3.5 px-5.5 text-xs font-medium bg-[var(--ink)] text-white hover:bg-[var(--green)] hover:text-white transition-colors" 
+            href="/catalogo/"
+          >
+            Explorar catálogo ↗
+          </a>
+          <a 
+            class="text-xs border-b border-[#bbbfb7] pb-1 inline-block hover:border-zinc-900 transition-colors" 
+            href={whatsappUrl('Hola ZENP, quisiera consultar por un producto a pedido.')} 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            ¿Lo traemos para ti? ↗
+          </a>
+        </div>
+
+        <p class="text-[10px] max-[760px]:text-[9px] text-[var(--muted)] mt-7">
+          Stock disponible · A pedido · Atención directa
+        </p>
+      </div>
+
+      <!-- Columna Imagen -->
+      <a 
+        class="hero-visual relative h-[370px] max-[1100px]:h-[460px] md:h-[515px] overflow-hidden bg-[var(--paper)] block group" 
+        href="/catalogo/zapatillas/"
+      >
+        <img 
+          src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1200&q=85" 
+          width="1000" 
+          height="1000" 
+          alt="Zapatillas urbanas, descubre la selección ZENP" 
+          fetchpriority="high"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent text-white pt-16 px-7 pb-7 grid gap-2">
+          <span class="text-[9px] tracking-widest uppercase">EL ESTILO EMPIEZA AQUÍ</span>
+          <strong class="text-lg font-medium">Encuentra tu próximo par ↗</strong>
+        </div>
+        <span class="absolute top-6 right-4.5 [writing-mode:vertical-rl] text-[9px] tracking-widest text-white [text-shadow:0_1px_4px_#000]">
+          ZENP ORIGINALS / THE EDIT
+        </span>
+      </a>
+
+    </section>

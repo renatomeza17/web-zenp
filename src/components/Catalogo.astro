@@ -1,0 +1,252 @@
+---
+// src/components/Catalogo.astro
+import CardProducto from './CardProducto.astro';
+import type { Producto } from '../data/productos';
+import { normalizarTallaUS } from '../lib/tallas';
+import { tallasProducto } from '../lib/precios';
+import { familiaIphone } from '../lib/navegacion';
+
+const { productos, categoria } = Astro.props as { productos: Producto[]; categoria?: string };
+
+const unique = (key: keyof Producto) =>
+  [...new Set(productos.map((p) => p[key]).filter(Boolean))].sort();
+
+const filtros = [
+  { key: 'brand', label: 'Marca', values: unique('marca') },
+  { key: 'model', label: 'Modelo', values: unique('modelo') },
+  ...(categoria === 'zapatillas'
+    ? [{ key: 'size', label: 'Talla US', values: [...new Set(productos.flatMap(p => tallasProducto(p).map(normalizarTallaUS)).filter((talla): talla is string => !!talla))].sort((a,b) => a.localeCompare(b,'es',{numeric:true})) }]
+    : []),
+  ...(categoria === 'iphones'
+    ? [
+        { key: 'family', label: 'Serie', values: [...new Set(productos.map(p => familiaIphone(p.modelo || p.nombre)))].sort((a,b) => a.localeCompare(b,'es',{numeric:true})) },
+        { key: 'capacity', label: 'Capacidad', values: unique('capacidad') }
+      ]
+    : []),
+  ...(categoria === 'tecnologia'
+    ? [{ key: 'type', label: 'Tipo', values: unique('tipo') }]
+    : [])
+];
+---
+
+<div class="catalog scroll-mt-28" data-catalog>
+  <!-- Barra de búsqueda superior -->
+  <div class="catalog-search [display:flex] [align-items:center] [gap:15px] [background:var(--paper)] [padding:17px_20px] [margin-bottom:30px] [&_input]:[border:0] [&_input]:[background:transparent] [&_input]:[width:100%] [&_input]:[font-size:13px] [&_input]:[outline-offset:8px] max-[760px]:[padding:15px] max-[760px]:[&_input]:[font-size:12px]">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="10.5" cy="10.5" r="7"></circle>
+      <path d="m16 16 5 5"></path>
+    </svg>
+    <input
+      type="search"
+      name="q"
+      aria-label="Buscar productos"
+      placeholder="Busca tu próximo par, iPhone o accesorio…"
+      data-search
+    />
+  </div>
+
+  <!-- Layout principal: Barra lateral de filtros + Grilla -->
+  <div class="catalog-layout [display:grid] [grid-template-columns:190px_1fr] [gap:42px] max-[1100px]:[gap:25px] max-[1100px]:[grid-template-columns:165px_1fr] max-[760px]:[grid-template-columns:1fr] max-[760px]:[gap:22px]">
+    
+    <!-- Barra lateral de Filtros -->
+    <aside class="filters [&>label]:[font-size:11px] [&>label]:[display:block] [&>label]:[margin-bottom:20px] [&_select]:[width:100%] [&_select]:[display:block] [&_select]:[border:1px_solid_var(--line)] [&_select]:[background:white] [&_select]:[margin-top:8px] [&_select]:[padding:10px] [&_select]:[font-size:11px] [&_.check-filter]:[display:flex] [&_.check-filter]:[align-items:center] [&_.check-filter]:[gap:9px] max-[760px]:[display:grid] max-[760px]:[grid-template-columns:1fr_1fr] max-[760px]:[gap:12px] max-[760px]:[&>label]:[margin:0] max-[760px]:[&_select]:[padding:9px]">
+      
+      <div class="filter-heading [display:flex] [justify-content:space-between] [margin-bottom:25px] [&_h2]:[font-size:14px] [&_button]:[border:0] [&_button]:[background:none] [&_button]:[text-decoration:underline] [&_button]:[font-size:10px] [&_button]:[color:var(--muted)] max-[760px]:[grid-column:1/-1] max-[760px]:[margin-bottom:0]">
+        <h2>Filtros</h2>
+        <button type="button" data-reset>Limpiar</button>
+      </div>
+
+      <!-- Filtros dinámicos según categoría -->
+      {filtros.map((f) => (
+        <label>
+          {f.label}
+          <select data-filter={f.key}>
+            <option value="">Todos</option>
+            {f.values.map((v) => (
+              <option value={String(v)}>{String(v)}</option>
+            ))}
+          </select>
+        </label>
+      ))}
+
+      {categoria === 'zapatillas' && <label>Género<select data-filter="gender"><option value="">Todos</option><option value="hombre">Hombre</option><option value="mujer">Mujer</option></select></label>}
+      <!-- Filtro por Estado/Disponibilidad -->
+      <label>
+        Disponibilidad
+        <select data-filter="state">
+          <option value="">Todas</option>
+          <option value="stock">En stock</option>
+          <option value="pedido">A pedido</option>
+          <option value="agotado">Agotado</option>
+        </select>
+      </label>
+
+      <!-- Checkbox de solo ofertas -->
+      <label class="check-filter [&_input]:[accent-color:var(--green)]">
+        <input type="checkbox" data-offers />
+        Solo ofertas
+      </label>
+
+      <p class="filter-note [font-size:11px] [color:var(--muted)] [line-height:2] [border-top:1px_solid_var(--line)] [padding-top:20px] max-[760px]:[display:none]">
+        ¿Buscas algo específico?<br />
+        <a href="/contacto/">Lo conversamos ↗</a>
+      </p>
+    </aside>
+
+    <!-- Área de Productos y Controles -->
+    <div>
+      <!-- Toolbar: Contador y Ordenamiento -->
+      <div class="catalog-toolbar [display:flex] [align-items:center] [justify-content:space-between] [gap:15px] [margin-bottom:25px] [font-size:11px] [color:var(--muted)] [&_label]:[display:flex] [&_label]:[align-items:center] [&_label]:[gap:10px] [&_select]:[border:0] [&_select]:[border-bottom:1px_solid_var(--line)] [&_select]:[padding:9px_0] [&_select]:[background:white] [&_select]:[font-size:11px] [&_select]:[color:var(--ink)] [&_select]:[max-width:180px] max-[760px]:[align-items:start] max-[760px]:[font-size:10px] max-[760px]:[&_label]:[gap:5px] max-[760px]:[&_label]:[flex-direction:column] max-[760px]:[&_label]:[align-items:start] max-[760px]:[&_select]:[font-size:10px]">
+        <p aria-live="polite" tabindex="-1" data-count>{productos.length} productos</p>
+        <label>
+          Ordenar por
+          <select data-sort>
+            <option value="default">-</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name">Nombre: A–Z</option>
+            <option value="model">Modelo: A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- {modoDemo && (
+        <p class="demo-note [font-size:10px] [color:#797d75] [margin-bottom:20px] [line-height:1.6]">
+          Ejemplos referenciales. Las fotos ilustran la categoría; consulta modelo, precio y disponibilidad.
+        </p>
+      )} -->
+
+      <p class="mb-5 text-[10px] leading-5 text-[#747773]">Precios en su moneda indicada. Al ordenar por precio, se agrupan soles y dólares; los importes por consultar aparecen al final.</p>
+      <!-- Grilla de Tarjetas -->
+      <!-- Grilla de Tarjetas -->
+      <div
+        class="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 product-grid catalog-grid"
+        data-grid
+      >
+        {productos.slice(0,12).map(p => <CardProducto producto={p}/>)}
+        {productos.slice(12).map(p => <template data-product-template><CardProducto producto={p}/></template>)}
+        <noscript class="contents"><div class="contents">{productos.slice(12).map(p => <CardProducto producto={p}/>)}</div></noscript>
+      </div>
+
+      <nav data-pagination aria-label="Páginas de productos" class="mt-10 flex flex-wrap items-center justify-center gap-2" hidden></nav>
+      <noscript><p class="mt-6 text-xs text-zinc-500">Activa JavaScript para usar los filtros, ordenar y navegar por páginas. Aquí puedes ver el catálogo completo.</p></noscript>
+      <!-- Estado Vacío (Sin resultados) -->
+      <div
+        class="empty-state [padding:70px_0] [text-align:center] [&_h2]:[font-size:23px] [&_p]:[color:var(--muted)] [&_p]:[margin:18px_0] [&_.text-link]:[margin:20px]"
+        data-empty
+        hidden
+      >
+        <h2>No encontramos ese producto.</h2>
+        <p>Prueba con otros filtros o cuéntanos qué buscas.</p>
+        <button
+          class="button dark [display:inline-flex] [align-items:center] [justify-content:center] [gap:18px] [padding:15px_22px] [font-size:12px] [font-weight:500] [border:0] [background:var(--ink)] [color:white] [&:hover]:[background:var(--green)] [&:hover]:[color:white]"
+          data-empty-reset
+        >
+          Limpiar filtros
+        </button>
+        <a
+          class="text-link [font-size:12px] [border-bottom:1px_solid_#bbbfb7] [padding-bottom:5px] [display:inline-block]"
+          href="/contacto/"
+        >
+          Consultar un pedido ↗
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import { filtrarYOrdenar } from '../lib/filtros';
+  import { parametrosFiltro } from '../lib/navegacion';
+  import { paginar } from '../lib/paginacion';
+  import { normalizarTallaUS } from '../lib/tallas';
+  const root = document.querySelector<HTMLElement>('[data-catalog]');
+  if (root) {
+    const search = root.querySelector<HTMLInputElement>('[data-search]')!;
+    const selects = [...root.querySelectorAll<HTMLSelectElement>('[data-filter]')];
+    const sort = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+    const offers = root.querySelector<HTMLInputElement>('[data-offers]')!;
+    const grid = root.querySelector<HTMLElement>('[data-grid]')!;
+    const pager = root.querySelector<HTMLElement>('[data-pagination]')!;
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const cards = [...grid.querySelectorAll<HTMLElement>('.product-card')];
+    // Templates keep images from later pages inert until their page is displayed.
+    grid.querySelectorAll<HTMLTemplateElement>('[data-product-template]').forEach(template => {
+      const card = template.content.querySelector<HTMLElement>('.product-card');
+      if (card) cards.push(card.cloneNode(true) as HTMLElement);
+      template.remove();
+    });
+    const items = cards.map((card,index) => ({...card.dataset,index}));
+    let page = 1;
+    function readUrl() {
+      const params = new URLSearchParams(location.search);
+      search.value = params.get('q') || '';
+      offers.checked = params.get('ofertas') === '1';
+      sort.value = [...sort.options].some(o => o.value === params.get('orden')) ? params.get('orden')! : 'default';
+      selects.forEach(select => {
+        const key = select.dataset.filter!;
+        let value = params.get(parametrosFiltro[key] || key) ?? params.get(key) ?? '';
+        if (key === 'size' && value) value = normalizarTallaUS(value) || value;
+        select.querySelectorAll('[data-unknown]').forEach(option => option.remove());
+        if (value && ![...select.options].some(option => option.value === value)) {
+          const option = new Option(`${value} (sin coincidencias)`,value); option.dataset.unknown = 'true'; select.add(option);
+        }
+        select.value = value;
+      });
+      page = Number(params.get('pagina') || 1);
+    }
+    function writeUrl(push = false) {
+      const params = new URLSearchParams();
+      if (search.value.trim()) params.set('q',search.value.trim());
+      selects.forEach(select => {if (select.value) params.set(parametrosFiltro[select.dataset.filter!] || select.dataset.filter!,select.value);});
+      if (offers.checked) params.set('ofertas','1');
+      if (sort.value !== 'default') params.set('orden',sort.value);
+      if (page > 1) params.set('pagina',String(page));
+      const url = `${location.pathname}${params.size ? `?${params}` : ''}${location.hash}`;
+      if (url !== `${location.pathname}${location.search}${location.hash}`) history[push ? 'pushState' : 'replaceState'](null,'',url);
+    }
+    function pageButton(label:string,target:number,active = false,disabled = false) {
+      const button = document.createElement('button'); button.type = 'button';button.textContent = label;
+      button.dataset.page = String(target);button.disabled = disabled;
+      button.className = `min-h-10 min-w-10 border px-3 text-xs transition-colors disabled:cursor-default disabled:opacity-40 ${active ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-900'}`;
+      if (active) button.setAttribute('aria-current','page');
+      return button;
+    }
+    function update(push = false) {
+      const filters = Object.fromEntries(selects.map(select => [select.dataset.filter!,select.value]));
+      const results = filtrarYOrdenar(items,search.value,filters,offers.checked,sort.value);
+      const pagination = paginar(results,page,12);page = pagination.actual;
+      // Detach previous cards instead of hiding all products with live image sources.
+      grid.replaceChildren(...pagination.items.map(item => cards[item.index]));
+      count.textContent = `${results.length} ${results.length === 1 ? 'producto' : 'productos'}${results.length ? ` · ${pagination.inicio}–${pagination.fin}` : ''}`;
+      root!.querySelector<HTMLElement>('[data-empty]')!.hidden = results.length > 0;
+      pager.replaceChildren();pager.hidden = pagination.totalPaginas <= 1;
+      if (!pager.hidden) {
+        pager.append(pageButton('Anterior',page-1,false,page===1));
+        const pages = pagination.totalPaginas <= 7 ? Array.from({length:pagination.totalPaginas},(_,index) => index+1) : [...new Set([1,page-1,page,page+1,pagination.totalPaginas])].filter(n => n>=1 && n<=pagination.totalPaginas).sort((a,b)=>a-b);
+        pages.forEach((number,index) => {
+          if (index && number-pages[index-1]>1) {const dots = document.createElement('span');dots.textContent = '…';dots.className = 'px-1 text-zinc-400';pager.append(dots);}
+          const button = pageButton(String(number),number,number===page);button.setAttribute('aria-label',`Página ${number}`);pager.append(button);
+        });
+        pager.append(pageButton('Siguiente',page+1,false,page===pagination.totalPaginas));
+      }
+      writeUrl(push);
+      document.dispatchEvent(new CustomEvent('catalog:query',{detail:search.value}));
+    }
+    const changed = () => {page = 1;update();};
+    function reset() {search.value = '';offers.checked = false;selects.forEach(select => select.value='');sort.value='default';changed();}
+    search.addEventListener('input',changed);selects.forEach(select => select.addEventListener('change',changed));
+    sort.addEventListener('change',changed);offers.addEventListener('change',changed);
+    root.querySelectorAll('[data-reset],[data-empty-reset]').forEach(button => button.addEventListener('click',reset));
+    pager.addEventListener('click',event => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-page]');
+      if (!button || button.disabled) return;
+      page = Number(button.dataset.page);update(true);
+      count.focus({preventScroll:true});root!.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    });
+    document.addEventListener('catalog:search',event => {search.value = (event as CustomEvent<string>).detail;changed();});
+    window.addEventListener('popstate',() => {readUrl();update();});
+    readUrl();update();
+  }
+</script>

@@ -1,0 +1,76 @@
+---
+// src/pages/catalogo/[categoria].astro
+import Layout from '../../layouts/Layout.astro';
+import Catalogo from '../../components/Catalogo.astro';
+import { categorias } from '../../data/tienda';
+import { getProductos } from '../../lib/catalogo';
+
+export function getStaticPaths() {
+  return categorias.map((c) => ({
+    params: { categoria: c.slug },
+    props: { categoria: c }
+  }));
+}
+
+const { categoria: c } = Astro.props;
+const productos = (await getProductos()).filter((p) => p.categoria === c.slug);
+---
+
+<Layout title={`${c.nombre} — Catálogo ZENP`}>
+  <main
+    id="contenido"
+    class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20"
+  >
+    <!-- Breadcrumbs / Migas de pan -->
+    <p class="text-[10px] text-(--muted,#71717a) mb-8 sm:mb-11">
+      <a href="/" class="hover:underline">Inicio</a> / 
+      <a href="/catalogo/" class="hover:underline">Catálogo</a> / 
+      {c.nombre}
+    </p>
+
+    <!-- Encabezado de la categoría -->
+    <div class="mb-9">
+      <!-- <p class="text-[10px] uppercase tracking-[1.8px] font-semibold text-[var(--muted,#71717a)] block mb-4.5">
+        {c.etiqueta}
+      </p> -->
+
+      <h1 class="font-['Space_Grotesk'] text-5xl sm:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.1] text-zinc-900">
+        {c.nombre}<span class="text-(--green,#10b981)">.</span>
+      </h1>
+
+      <!-- <p class="text-sm text-(--muted,#71717a) leading-relaxed mt-4 max-w-xl">
+        {c.descripcion}
+      </p> -->
+    </div>
+
+    <!-- Pestañas de categorías -->
+    <nav
+      class="flex gap-5 sm:gap-7 border-b border-(--line,#e4e4e7) mb-7 overflow-x-auto text-xs whitespace-nowrap pb-4 text-(--muted,#71717a)"
+      aria-label="Categorías"
+    >
+      <a 
+        href="/catalogo/" 
+        class="hover:text-(--ink,#18181b) transition-colors pb-4 -mb-4"
+      >
+        Todo
+      </a>
+      {categorias.map((cat) => (
+        <a
+          href={`/catalogo/${cat.slug}/`}
+          class:list={[
+            'pb-4 -mb-4 transition-colors',
+            cat.slug === c.slug
+              ? 'text-(--ink,#18181b) border-b-2 border-(--ink,#18181b) font-semibold'
+              : 'hover:text-(--ink,#18181b)'
+          ]}
+          aria-current={cat.slug === c.slug ? 'page' : undefined}
+        >
+          {cat.nombre}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Componente con la grilla y filtros de productos -->
+    <Catalogo productos={productos} categoria={c.slug} />
+  </main>
+</Layout>

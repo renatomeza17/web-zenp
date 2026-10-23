@@ -1,0 +1,18 @@
+---
+import { guiasTallas } from '../data/guias-tallas';
+import { generoEtiqueta } from '../lib/precios';
+import type { Producto } from '../data/productos';
+const { producto:p } = Astro.props as {producto:Producto};
+const guia = guiasTallas[p.marca.trim().toLowerCase()];
+const enlaces = guia?.enlaces.filter(e => p.genero !== 'mujer' || !e.nombre.startsWith('Hombre')).filter(e => p.genero !== 'hombre' || !e.nombre.startsWith('Mujer ·')) || [];
+---
+<details class="mt-5 border-y border-[#e6e7e3] py-4">
+  <summary class="cursor-pointer text-xs font-medium text-zinc-900">Guía de tallas · {guia?.nombre || p.marca}</summary>
+  <div class="mt-4 space-y-4 text-xs leading-6 text-[#666b63]">
+    {generoEtiqueta(p) && <p class="font-medium text-zinc-900">Este par: {generoEtiqueta(p)}</p>}
+    <ol class="list-decimal space-y-2 pl-4"><li>De pie sobre una hoja, marca el talón y el extremo del dedo más largo.</li><li>Mide ambos pies en centímetros y conserva la medida mayor.</li><li>Consulta la tabla de {p.marca} para el tallaje de este par y confirma la talla con nuestro equipo.</li></ol>
+    <p>Las tallas US de mujer (W) y hombre (M) son distintas. Revisa la columna correspondiente; la medida del pie y la medida de la etiqueta pueden ser diferentes.</p>
+    <div class="flex flex-wrap gap-3">{enlaces.map(e => <a class="border-b border-[#bbbfb7] text-zinc-900" href={e.url} target="_blank" rel="noopener noreferrer">{e.nombre} ↗</a>)}</div>
+    {!guia && <p>Escríbenos para confirmar la guía y equivalencias de esta marca.</p>}
+  </div>
+</details>

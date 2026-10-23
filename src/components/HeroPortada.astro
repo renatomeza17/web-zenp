@@ -1,0 +1,62 @@
+---
+// src/components/HeroPortada.astro
+---
+
+<section class="max-w-6xl mx-auto px-4 pt-6 pb-4">
+  <!-- Banner Card Principal con Estética Urban Tech -->
+  <div class="relative overflow-hidden rounded-3xl bg-linear-to-br from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 p-6 sm:p-10 shadow-2xl">
+    
+    <!-- Efecto de Luz de Fondo -->
+    <div class="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-2xl">
+      <!-- Tag / Badge -->
+      <span class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Temporada 2026 • Drops & Encargos
+      </span>
+
+      <!-- Título Principal -->
+      <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-tight">
+        Streetwear, Apple & Setup de Alto Nivel
+      </h1>
+
+      <p class="text-sm sm:text-base text-zinc-400 mt-3 leading-relaxed">
+        Modelos exclusivos en stock inmediato y pedidos por encargo con separación desde el 10% de adelanto.
+      </p>
+
+      <!-- Botones de Acción Rápida -->
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        <a 
+          href="#zapatillas" 
+          class="bg-white hover:bg-zinc-200 text-zinc-950 text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-lg"
+        >
+          Ver Catálogo
+        </a>
+        <a 
+          href="#iphones" 
+          class="bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl border border-zinc-700/50 transition"
+        >
+          iPhones Disponibles
+        </a>
+      </div>
+    </div>
+
+    <!-- 3 Sellos de Confianza al pie del banner -->
+    <div class="mt-8 pt-6 border-t border-zinc-800/80 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-zinc-400">
+      <div class="flex items-center gap-2">
+        <span class="text-emerald-400 text-sm">✓</span>
+        <span>100% Originales & Garantía</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-emerald-400 text-sm">📦</span>
+        <span>Envíos Lima y Provincias</span>
+      </div>
+      <div class="flex items-center gap-2 col-span-2 sm:col-span-1">
+        <span class="text-emerald-400 text-sm">⚡</span>
+        <span>Atención directa sin intermediarios</span>
+      </div>
+    </div>
+
+  </div>
+</section>

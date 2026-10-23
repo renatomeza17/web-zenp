@@ -1,0 +1,85 @@
+---
+import type { Producto } from '../data/productos';
+import { normalizarTallaUS } from '../lib/tallas';
+import { familiaIphone } from '../lib/navegacion';
+import { precioProducto, formatearPrecio, generoEtiqueta, tallasProducto } from '../lib/precios';
+
+const { producto: p } = Astro.props as { producto: Producto };
+const precio = precioProducto(p);
+const estado = { stock: 'En stock', pedido: 'A pedido', agotado: 'Agotado' }[p.estado];
+---
+
+<article
+  class="product-card group flex min-w-0 flex-col"
+  data-title={p.nombre}
+  data-brand={p.marca}
+  data-model={p.modelo}
+  data-family={p.categoria === 'iphones' ? familiaIphone(p.modelo || p.nombre) : ''}
+  data-type={p.tipo ?? ''}
+  data-condition={p.condicion ?? ''}
+  data-state={p.estado}
+  data-price={precio.valor ?? ''}
+  data-currency={precio.divisa}
+  data-gender={p.genero ?? ''}
+  data-sizes={[...new Set(tallasProducto(p).map(normalizarTallaUS).filter(Boolean))].join('|')}
+  data-capacity={p.capacidad ?? ''}
+  data-offer={!!precio.descuento}
+>
+  <a href={`/producto/${p.id}/`} class="flex h-full flex-col" aria-label={`Ver ${p.nombre}`}>
+    <div class="relative aspect-square overflow-hidden bg-white">
+      <span
+        class:list={[
+            'absolute top-2.5 left-2 z-10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-sm select-none',
+            {
+                'bg-[#b0d8a6] text-[#151616]': p.estado === 'stock',
+                'bg-[#ffca60] text-[#151616]': p.estado === 'pedido',
+                'bg-[#f3f4f0] text-[#656963]': p.estado === 'agotado'
+            }
+        ]}
+      >
+        {estado}
+      </span>
+
+      {precio.descuento && (
+        <span class="absolute top-2.5 right-2 z-10 bg-[#181a19] px-2 py-1.5 text-[9px] text-white">
+          −{precio.descuento}%
+        </span>
+      )}
+
+      <img
+        src={p.imagenes[0] || '/producto-placeholder.svg'}
+        alt={p.nombre}
+        width="600"
+        height="600"
+        class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.04] motion-reduce:transition-none"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <div class="flex flex-1 flex-col pt-5 max-[760px]:pt-3.5">
+      <p class="mb-2 flex justify-between gap-2 text-[9px] tracking-wide text-[#747773] uppercase">
+        <span>{p.marca}</span>
+        <!-- <span class="tracking-normal normal-case">{p.condicion || p.tipo || 'Sneakers'}</span> -->
+      </p>
+
+      <h3 class="text-sm leading-relaxed font-medium max-[760px]:text-xs">
+        {p.nombre}
+      </h3>
+
+      {p.categoria === 'zapatillas' && generoEtiqueta(p) && <span class="mt-2 w-fit bg-[#f3f4f0] px-2 py-1 text-[10px] text-[#555b51]">{generoEtiqueta(p)}</span>}
+      <p class="my-3 text-[15px] font-semibold">
+        {precio.anterior !== null ? (
+          <>
+            <span class="text-red-600 font-bold">{precio.texto}</span>
+            <del class="ml-2 text-[11px] font-normal text-[#888]">
+              {formatearPrecio(precio.anterior!, precio.divisa)}
+            </del>
+          </>
+        ) : (
+          <span>{precio.texto}</span>
+        )}
+      </p>
+    </div>
+  </a>
+</article>

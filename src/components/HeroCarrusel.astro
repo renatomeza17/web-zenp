@@ -1,0 +1,244 @@
+---
+// src/components/HeroCarousel.astro
+const slides = [
+  {
+    id: 1,
+    badge: "Streetwear Drops",
+    titulo: "Zapatillas Exclusivas",
+    subtitulo: "Stock inmediato y pedidos bajo encargo.",
+    imagenDesktop: "/jordan4.jpg",
+    imagenMobile: "/jordan4.jpg",
+    enlace: "/catalogo/zapatillas/",
+    btnTexto: "Ver Catálogo",
+    posicion: "w-full h-full object-cover object-[center_bottom] sm:object-[80%_65%] brightness-95 contrast-105"
+  },
+  {
+    id: 2,
+    badge: "Apple Oficial",
+    titulo: "iPhones Sellados y Seminuevos",
+    subtitulo: "Equipos con garantía. Separa el tuyo con adelanto mínimo.",
+    imagenDesktop: "/iphonebanner.png",
+    imagenMobile: "/iphonebanner.png",
+    enlace: "/catalogo/iphones/",
+    btnTexto: "Ver Equipos"
+  },
+  {
+    id: 3,
+    badge: "Setup & Gaming",
+    titulo: "Periféricos & Cómputo",
+    subtitulo: "Teclados mecánicos, audio y accesorios de alto nivel.",
+    imagenDesktop: "/razerbanner.jpg",
+    imagenMobile: "/razerbanner.jpg",
+    enlace: "/catalogo/tecnologia/",
+    btnTexto: "Explorar Tech"
+  }
+];
+---
+
+<section class="w-full relative overflow-hidden bg-zinc-950 border-b border-zinc-800">
+  <div class="relative w-full h-120 sm:h-135 group">
+    
+    <!-- Pista Deslizante -->
+    <div id="carousel-track" class="flex h-full w-full transition-transform duration-500 ease-out">
+      {slides.map((s) => (
+        <div class="min-w-full h-full relative flex items-center">
+          
+          <!-- Imagen de fondo con 90% a 100% de brillo (ya no está apagada ni opaca) -->
+          <picture class="absolute inset-0 w-full h-full">
+            <source media="(min-width: 640px)" srcset={s.imagenDesktop} />
+            <img 
+              src={s.imagenMobile} 
+              alt={s.titulo} 
+              class:list={[
+                "w-full h-full object-cover brightness-95 contrast-105 transition-transform duration-300",
+                  s.posicion || "object-center"
+              ]}
+              loading={s.id === 1 ? "eager" : "lazy"}
+              fetchpriority={s.id === 1 ? "high" : "auto"}
+              decoding="async"
+            />
+          </picture>
+
+          <!-- Sombra muy suave en los extremos para garantizar contraste sin oscurecer el producto -->
+          <div class="absolute inset-0 bg-linear-to-t sm:bg-linear-to-r from-black/80 via-black/30 to-transparent"></div>
+
+          <!-- Caja de Contenido con efecto Glassmorphism (Vidrio oscuro traslúcido) -->
+          <!-- Contenido Tipográfico Limpio (Sin recuadro ni badge) -->
+          <div class="relative z-10 w-full h-full flex flex-col justify-end sm:justify-center px-6 sm:px-15 lg:px-45 pb-14 sm:pb-0">
+            <div class="max-w-md lg:max-w-lg">
+              
+              <!-- Título compacto a la izquierda -->
+              <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[1.05] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+                {s.titulo}
+              </h2>
+              
+              <!-- Descripción directa -->
+              <p class="text-sm sm:text-base text-zinc-200 mt-3 font-medium leading-relaxed max-w-sm drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+                {s.subtitulo}
+              </p>
+              
+              <!-- Botón -->
+              <div class="mt-6">
+                <a 
+                  href={s.enlace}
+                  class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95"
+                >
+                  <span>{s.btnTexto}</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+            {/* <div class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-12 flex flex-col justify-end sm:justify-center h-full pb-14 sm:pb-0">
+            <div class="max-w-xl">
+                
+                <!-- Título con sombra de texto integrada (alta legibilidad sin caja) -->
+                <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[1.1] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+                {s.titulo}
+                </h2>
+                
+                <!-- Descripción directa -->
+                <p class="text-sm sm:text-base text-zinc-200 mt-3 font-medium leading-relaxed max-w-md drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+                {s.subtitulo}
+                </p>
+                
+                <!-- Botón directo de acción -->
+                <div class="mt-6">
+                <a 
+                    href={s.enlace}
+                    class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95"
+                >
+                    <span>{s.btnTexto}</span>
+                    
+                </a>
+                </div>
+
+            </div>
+            </div> */}
+
+        </div>
+
+        // <div class="min-w-full h-full relative flex items-center bg-zinc-950">
+          
+        //   <!-- Imagen de fondo anclada a la derecha y nítida -->
+        //   <div class="absolute inset-0 flex justify-end items-center pointer-events-none overflow-hidden">
+        //     <picture class="h-full w-full sm:w-3/5 lg:w-1/2 flex justify-end">
+        //       <source media="(min-width: 640px)" srcset={s.imagenDesktop} />
+        //       <img 
+        //         src={s.imagenMobile} 
+        //         alt={s.titulo} 
+        //         class="h-full w-full object-cover sm:object-contain object-bottom sm:object-right brightness-100 contrast-100"
+        //         loading="lazy"
+        //       />
+        //     </picture>
+        //   </div>
+
+        //   <!-- Degradado difuminado a la izquierda (bajo el texto) -->
+        //   <div class="absolute inset-0 bg-linear-to-t sm:bg-linear-to-r from-zinc-950 via-zinc-950/80 sm:via-zinc-950/50 to-transparent sm:w-2/3 pointer-events-none"></div>
+
+        //   <!-- Contenido Tipográfico Limpio -->
+        //   <div class="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-12 flex flex-col justify-end sm:justify-center h-full pb-14 sm:pb-0">
+        //     <div class="max-w-xl">
+        //       <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[1.1] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+        //         {s.titulo}
+        //       </h2>
+              
+        //       <p class="text-sm sm:text-base text-zinc-200 mt-3 font-medium leading-relaxed max-w-md drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+        //         {s.subtitulo}
+        //       </p>
+              
+        //       <div class="mt-6">
+        //         <a 
+        //           href={s.enlace}
+        //           class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95"
+        //         >
+        //           <span>{s.btnTexto}</span>
+        //         </a>
+        //       </div>
+        //     </div>
+        //   </div>
+
+        // </div>
+      ))}
+    </div>
+
+    <!-- Flechas de navegación -->
+    <button 
+      id="prev-slide" 
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white p-3 rounded-full border border-white/10 transition opacity-0 group-hover:opacity-100 hidden sm:flex items-center justify-center cursor-pointer z-20 backdrop-blur-md shadow-xl" 
+      aria-label="Anterior"
+    >
+      ❮
+    </button>
+    <button 
+      id="next-slide" 
+      class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white p-3 rounded-full border border-white/10 transition opacity-0 group-hover:opacity-100 hidden sm:flex items-center justify-center cursor-pointer z-20 backdrop-blur-md shadow-xl" 
+      aria-label="Siguiente"
+    >
+      ❯
+    </button>
+
+    <!-- Puntos de Navegación -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+      {slides.map((_, i) => (
+        <button 
+          data-slide-index={i} 
+          class="carousel-dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-zinc-500 transition-all duration-300 cursor-pointer"
+          aria-label={`Slide ${i + 1}`}
+        ></button>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById('carousel-track');
+  const prevBtn = document.getElementById('prev-slide');
+  const nextBtn = document.getElementById('next-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+
+  let current = 0;
+  const total = dots.length;
+
+  function updateSlide(idx: number) {
+    current = (idx + total) % total;
+    if (track) {
+      track.style.transform = `translateX(-${current * 100}%)`;
+    }
+    dots.forEach((d, i) => {
+      d.classList.toggle('bg-emerald-400', i === current);
+      d.classList.toggle('w-6', i === current);
+      d.classList.toggle('bg-zinc-500', i !== current);
+    });
+  }
+
+  nextBtn?.addEventListener('click', () => updateSlide(current + 1));
+  prevBtn?.addEventListener('click', () => updateSlide(current - 1));
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => updateSlide(i));
+  });
+
+  let timer = setInterval(() => updateSlide(current + 1), 5000);
+  track?.addEventListener('mouseenter', () => clearInterval(timer));
+  track?.addEventListener('mouseleave', () => {
+    timer = setInterval(() => updateSlide(current + 1), 5000);
+  });
+
+  let startX = 0;
+  track?.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track?.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) updateSlide(current + 1);
+      else updateSlide(current - 1);
+    }
+  }, { passive: true });
+
+  updateSlide(0);
+</script>

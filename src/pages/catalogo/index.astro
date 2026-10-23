@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Catalogo from '../../components/Catalogo.astro';
+import { categorias } from '../../data/tienda';
+import { getProductos } from '../../lib/catalogo';
+
+const productos = await getProductos();
+---
+
+<Layout title="Explora el catálogo — ZENP">
+  <main
+    id="contenido"
+    class="container catalog-page [width:min(1240px,calc(100%_-_80px))] [margin:auto] [padding-top:30px] [padding-bottom:80px] max-[1100px]:[width:calc(100%_-_48px)] max-[760px]:[width:calc(100%_-_36px)]"
+  >
+    <!-- Breadcrumb -->
+    <p class="breadcrumb [font-size:10px] [color:var(--muted)] [margin-bottom:45px] max-[760px]:[margin-bottom:30px]">
+      <a href="/">Inicio</a> / Catálogo
+    </p>
+
+    <!-- Encabezado de la página -->
+    <div
+      class="page-heading [margin-bottom:35px] [&_h1]:[font-family:'Space_Grotesk'] [&_h1]:[font-size:64px] [&_h1]:[letter-spacing:-3px] [&_h1]:[line-height:1.1] [&_h1]:[font-weight:500] [&>p:last-child]:[font-size:14px] [&>p:last-child]:[color:var(--muted)] [&>p:last-child]:[line-height:1.8] [&>p:last-child]:[margin-top:15px] max-[760px]:[&_h1]:[font-size:48px] max-[760px]:[&_h1]:[letter-spacing:-2px]"
+    >
+      <!-- <p class="eyebrow [font-size:10px] [text-transform:uppercase] [letter-spacing:1.8px] [font-weight:600] [color:var(--muted)] [display:block] [margin-bottom:18px]">
+        Encuentra lo que va contigo
+      </p> -->
+      <h1>
+        Catálogo<span class="accent [color:var(--green)]">.</span>
+      </h1>
+      <p>
+        Sneakers, iPhones y tecnología. Elige, consulta y coordinamos contigo.
+      </p>
+    </div>
+
+    <!-- Navegación de pestañas por categoría -->
+    <nav
+      class="catalog-tabs [display:flex] [gap:28px] [border-bottom:1px_solid_var(--line)] [margin-bottom:28px] [overflow:auto] [&_a]:[font-size:12px] [&_a]:[padding:0_0_15px] [&_a]:[white-space:nowrap] [&_a]:[color:var(--muted)] [&_a[aria-current]]:[color:var(--ink)] [&_a[aria-current]]:[border-bottom:2px_solid_var(--ink)] max-[760px]:[gap:22px]"
+      aria-label="Categorías"
+    >
+      <a href="/catalogo/" aria-current="page">Todo</a>
+      {categorias.map(c => (
+        <a href={`/catalogo/${c.slug}/`}>{c.nombre}</a>
+      ))}
+    </nav>
+
+    <!-- Listado del catálogo -->
+    <Catalogo productos={productos} />
+  </main>
+</Layout>

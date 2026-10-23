@@ -1,0 +1,255 @@
+---
+// src/components/Header.astro
+interface Props {
+  telefonoWhatsapp?: string;
+  nombreTienda?: string;
+}
+
+const { 
+  telefonoWhatsapp = "51907781751", // Con prefijo 51 de Perú para abrir WhatsApp directo
+  nombreTienda = "ZENP" 
+} = Astro.props;
+
+const urlWhatsappGeneral = `https://wa.me/${telefonoWhatsapp}?text=${encodeURIComponent("Hola! Estoy revisando el catálogo y me gustaría hacer una consulta.")}`;
+---
+
+<!-- 1. Cinta Superior Informativa (Top Banner) -->
+<div class="bg-zinc-950 text-zinc-300 border-b border-zinc-800/80 text-xs py-2 px-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-center gap-3 text-center font-medium tracking-wide flex-wrap">
+    <span class="flex items-center gap-1.5">
+       Envíos a todo el Perú
+    </span>
+    <span class="hidden sm:inline text-zinc-600">•</span>
+    <span class="flex items-center gap-1.5">
+       Stock inmediato y bajo pedido
+    </span>
+    <span class="hidden sm:inline text-zinc-600">•</span>
+    <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+       Atención directa por WhatsApp
+    </span>
+  </div>
+</div>
+
+<!-- 2. Header / Barra de Navegación Principal -->
+<header class="bg-zinc-900/90 backdrop-blur-md border-b border-zinc-800 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+    
+    <!-- Lado Izquierdo: Botón Desglosable Móvil + Logo -->
+    <div class="flex items-center gap-3">
+      <!-- Botón Desglozable (Solo Móvil) -->
+      <button
+        id="btn-open-sidebar"
+        type="button"
+        class="text-2xl md:hidden text-white p-1 hover:text-emerald-400 transition"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+      <!-- Logo de la Marca -->
+      <a href="/" class="flex items-center gap-2 group">
+        <span class="text-xl font-black tracking-tighter text-white uppercase group-hover:text-emerald-400 transition-colors">
+          {nombreTienda}<span class="text-emerald-500">.PE</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- Menú de Navegación (Escritorio: Hover Dropdowns) -->
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-300">
+      
+      <!-- DESPLEGABLE: Zapatillas -->
+      <div class="relative group py-5">
+        <a href="#zapatillas" class="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
+           Zapatillas
+          <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+        <div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-2 w-52 shadow-2xl backdrop-blur-md z-50">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 py-1.5">Marcas</span>
+          <a href="#zapatillas" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Nike (Dunk, Air Force)</a>
+          <a href="#zapatillas" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Jordan Retro</a>
+          <a href="#zapatillas" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Adidas (Campus, Samba)</a>
+          <a href="#zapatillas" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">New Balance (550, 9060)</a>
+        </div>
+      </div>
+
+      <!-- DESPLEGABLE: iPhoness -->
+      <div class="relative group py-5">
+        <a href="#iphones" class="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
+           iPhones
+          <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+        <div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-2 w-52 shadow-2xl backdrop-blur-md z-50">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 py-1.5">Modelos</span>
+          <a href="#iphones" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Serie iPhone 15</a>
+          <a href="#iphones" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Serie iPhone 14</a>
+          <a href="#iphones" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Serie iPhone 13 / 12</a>
+          <a href="#iphones" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Equipos Sellados</a>
+        </div>
+      </div>
+
+      <!-- DESPLEGABLE: Tecnología -->
+      <div class="relative group py-5">
+        <a href="#tecnologia" class="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
+           Tecnología
+          <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+        <div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl p-2 w-52 shadow-2xl backdrop-blur-md z-50">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 py-1.5">Periféricos</span>
+          <a href="#tecnologia" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Teclados Mecánicos</a>
+          <a href="#tecnologia" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Mouses Gaming</a>
+          <a href="#tecnologia" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Headsets & Audio</a>
+          <a href="#tecnologia" class="px-3 py-2 text-xs rounded-xl text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition">Cables y Accesorios</a>
+        </div>
+      </div>
+
+    </nav>
+
+    <!-- Botón de WhatsApp Directo con Ícono SVG -->
+    <div class="flex items-center gap-3">
+      <a 
+        href={urlWhatsappGeneral} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 transition-all"
+      >
+        <!-- Tu ícono oficial conservado -->
+        <img src="/brand-whatsapp.svg" alt="WhatsApp" class="w-6 h-6 sm:w-5 sm:h-5 brightness-0 invert" />
+        <span class="hidden sm:inline">WhatsApp</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<!-- ========================================== -->
+<!-- 3. MENÚ LATERAL MÓVIL (Sidebar a la izquierda) -->
+<!-- ========================================== -->
+
+<!-- Fondo sombreado (Backdrop) -->
+<div 
+  id="sidebar-backdrop" 
+  class="fixed inset-0 bg-black/70 z-50 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+></div>
+
+<!-- Panel que se desliza desde la izquierda -->
+<aside 
+  id="sidebar-panel"
+  class="fixed top-0 left-0 h-full w-4/5 max-w-xs bg-zinc-900 border-r border-zinc-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col shadow-2xl"
+>
+  <!-- Barra superior del sidebar -->
+  <div class="h-16 px-4 border-b border-zinc-800 flex items-center justify-between">
+    <span class="text-lg font-black text-white uppercase">
+      {nombreTienda}<span class="text-emerald-500">.PE</span>
+    </span>
+    <button 
+      id="btn-close-sidebar" 
+      class="text-zinc-400 hover:text-white p-1 rounded-lg text-lg"
+      aria-label="Cerrar menú"
+    >
+      ✕
+    </button>
+  </div>
+
+  <!-- Contenido de categorías con acordeones nativos -->
+  <div class="p-4 space-y-4 overflow-y-auto grow">
+    
+    <!-- Acordeón Zapatillas -->
+    <details class="group rounded-xl bg-zinc-950/60 border border-zinc-800/80 open:border-zinc-700">
+      <summary class="flex items-center justify-between p-3.5 text-sm font-bold text-white cursor-pointer select-none">
+        <span class="flex items-center gap-2"> Zapatillas</span>
+        <svg class="w-4 h-4 text-zinc-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
+      <div class="px-4 pb-3 pt-1 space-y-2 text-xs text-zinc-400 border-t border-zinc-800/40">
+        <a href="#zapatillas" class="block py-1 hover:text-emerald-400 mobile-nav-link">Nike (Dunk, Air Force)</a>
+        <a href="#zapatillas" class="block py-1 hover:text-emerald-400 mobile-nav-link">Jordan Retro</a>
+        <a href="#zapatillas" class="block py-1 hover:text-emerald-400 mobile-nav-link">Adidas (Campus, Samba)</a>
+        <a href="#zapatillas" class="block py-1 hover:text-emerald-400 mobile-nav-link">New Balance (550, 9060)</a>
+      </div>
+    </details>
+
+    <!-- Acordeón iPhones -->
+    <details class="group rounded-xl bg-zinc-950/60 border border-zinc-800/80 open:border-zinc-700">
+      <summary class="flex items-center justify-between p-3.5 text-sm font-bold text-white cursor-pointer select-none">
+        <span class="flex items-center gap-2"> iPhones</span>
+        <svg class="w-4 h-4 text-zinc-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
+      <div class="px-4 pb-3 pt-1 space-y-2 text-xs text-zinc-400 border-t border-zinc-800/40">
+        <a href="#iphones" class="block py-1 hover:text-emerald-400 mobile-nav-link">iPhone 15 Series</a>
+        <a href="#iphones" class="block py-1 hover:text-emerald-400 mobile-nav-link">iPhone 14 Series</a>
+        <a href="#iphones" class="block py-1 hover:text-emerald-400 mobile-nav-link">iPhone 13 / 12</a>
+        <a href="#iphones" class="block py-1 hover:text-emerald-400 mobile-nav-link">Equipos Sellados</a>
+      </div>
+    </details>
+
+    <!-- Acordeón Tecnología -->
+    <details class="group rounded-xl bg-zinc-950/60 border border-zinc-800/80 open:border-zinc-700">
+      <summary class="flex items-center justify-between p-3.5 text-sm font-bold text-white cursor-pointer select-none">
+        <span class="flex items-center gap-2"> Tecnología</span>
+        <svg class="w-4 h-4 text-zinc-500 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </summary>
+      <div class="px-4 pb-3 pt-1 space-y-2 text-xs text-zinc-400 border-t border-zinc-800/40">
+        <a href="#tecnologia" class="block py-1 hover:text-emerald-400 mobile-nav-link">Teclados Mecánicos</a>
+        <a href="#tecnologia" class="block py-1 hover:text-emerald-400 mobile-nav-link">Mouses Gaming</a>
+        <a href="#tecnologia" class="block py-1 hover:text-emerald-400 mobile-nav-link">Headsets & Audio</a>
+        <a href="#tecnologia" class="block py-1 hover:text-emerald-400 mobile-nav-link">Cables y Accesorios</a>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Botón de consulta al pie del menú lateral -->
+  <div class="p-4 border-t border-zinc-800">
+    <a 
+      href={urlWhatsappGeneral}
+      target="_blank"
+      class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg"
+    >
+      <img src="/brand-whatsapp.svg" alt="WhatsApp" class="w-4 h-4 brightness-0 invert" />
+      Consultar por WhatsApp
+    </a>
+  </div>
+</aside>
+
+<!-- Control interactivo nativo -->
+<script>
+  const btnOpen = document.getElementById('btn-open-sidebar');
+  const btnClose = document.getElementById('btn-close-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const panel = document.getElementById('sidebar-panel');
+  const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+  function openSidebar() {
+    backdrop?.classList.remove('opacity-0', 'pointer-events-none');
+    backdrop?.classList.add('opacity-100', 'pointer-events-auto');
+    panel?.classList.remove('-translate-x-full');
+    panel?.classList.add('translate-x-0');
+  }
+
+  function closeSidebar() {
+    backdrop?.classList.remove('opacity-100', 'pointer-events-auto');
+    backdrop?.classList.add('opacity-0', 'pointer-events-none');
+    panel?.classList.remove('translate-x-0');
+    panel?.classList.add('-translate-x-full');
+  }
+
+  btnOpen?.addEventListener('click', openSidebar);
+  btnClose?.addEventListener('click', closeSidebar);
+  backdrop?.addEventListener('click', closeSidebar);
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
+</script>

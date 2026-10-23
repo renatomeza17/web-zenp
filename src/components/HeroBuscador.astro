@@ -1,0 +1,118 @@
+---
+// src/components/HeroBuscador.astro
+---
+
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6 text-center">
+  <!-- Título de Impacto -->
+  <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+    Catálogo Oficial
+  </span>
+
+  <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mt-4 uppercase max-w-2xl mx-auto leading-tight">
+    Modelos exclusivos en mano y bajo encargo
+  </h1>
+
+  <p class="text-sm text-zinc-400 max-w-lg mx-auto mt-3">
+    Encuentra zapatillas streetwear, iPhones sellados o seminuevos y tecnología con entregas a todo el Perú.
+  </p>
+
+  <!-- 3 Pilares de Confianza -->
+  <div class="flex flex-wrap justify-center gap-3 mt-6">
+    <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800/80 px-3.5 py-1.5 rounded-full text-xs text-zinc-300">
+      <span>⚡</span> Entrega inmediata
+    </div>
+    <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800/80 px-3.5 py-1.5 rounded-full text-xs text-zinc-300">
+      <span>🛡️</span> 100% Originales
+    </div>
+    <div class="flex items-center gap-2 bg-zinc-900 border border-zinc-800/80 px-3.5 py-1.5 rounded-full text-xs text-zinc-300">
+      <span>✅</span> Garantía asegurada
+    </div>
+  </div>
+
+  <!-- Barra de Búsqueda Interactiva -->
+  <div class="mt-8 max-w-xl mx-auto">
+    <div class="relative flex items-center">
+      <span class="absolute left-4 text-zinc-500 text-lg">🔍</span>
+      <input 
+        id="search-input"
+        type="text" 
+        placeholder="Buscar modelo, marca o capacidad (ej: Panda, iPhone 15)..."
+        class="w-full bg-zinc-900/90 text-white placeholder-zinc-500 pl-11 pr-4 py-3.5 rounded-2xl border border-zinc-800 focus:outline-none focus:border-emerald-500 text-sm shadow-xl transition"
+      />
+    </div>
+
+    <!-- Chips / Filtros Rápidos de Disponibilidad -->
+    <div class="flex items-center justify-center gap-2 mt-4 flex-wrap">
+      <button 
+        type="button" 
+        data-filter="all" 
+        class="filter-btn active-filter bg-emerald-500 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition"
+      >
+        Todos
+      </button>
+      <button 
+        type="button" 
+        data-filter="stock" 
+        class="filter-btn bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 text-xs font-semibold px-3.5 py-1.5 rounded-xl transition"
+      >
+        🟢 En Stock
+      </button>
+      <button 
+        type="button" 
+        data-filter="pedido" 
+        class="filter-btn bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 text-xs font-semibold px-3.5 py-1.5 rounded-xl transition"
+      >
+        🟡 A Pedido
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Script para búsqueda en tiempo real y filtrado de tarjetas -->
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.product-card');
+
+  let currentFilter = 'all';
+  let searchQuery = '';
+
+  function applyFilters() {
+    cards.forEach((card) => {
+      const element = card as HTMLElement;
+      const title = element.dataset.title?.toLowerCase() || '';
+      const state = element.dataset.state || '';
+
+      const matchesSearch = title.includes(searchQuery);
+      const matchesState = currentFilter === 'all' || state === currentFilter;
+
+      if (matchesSearch && matchesState) {
+        element.style.display = '';
+      } else {
+        element.style.display = 'none';
+      }
+    });
+  }
+
+  // Evento de escritura en el input
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    applyFilters();
+  });
+
+  // Evento en botones de filtro
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach((b) => {
+        b.classList.remove('bg-emerald-500', 'text-white');
+        b.classList.add('bg-zinc-900', 'text-zinc-400');
+      });
+
+      btn.classList.remove('bg-zinc-900', 'text-zinc-400');
+      btn.classList.add('bg-emerald-500', 'text-white');
+
+      currentFilter = (btn as HTMLElement).dataset.filter || 'all';
+      applyFilters();
+    });
+  });
+</script>
