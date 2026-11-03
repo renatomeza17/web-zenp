@@ -1,0 +1,39 @@
+---
+import MapaUbicacion from '../components/MapaUbicacion.astro';
+import EntregasInfo from '../components/EntregasInfo.astro';
+import Layout from '../layouts/Layout.astro';
+import IconoPago from '../components/IconoPago.astro';
+import { whatsappUrl, pagos } from '../data/tienda';
+const descripciones:Record<string,string> = {
+ 'Yape':'Te compartimos el número o QR por WhatsApp al confirmar tu pedido.',
+ 'Plin':'Solicita los datos de Plin a nuestro equipo y confirma el importe de tu compra.',
+ 'Transferencia bancaria':'Transfiere desde el banco de tu preferencia: BCP, Interbank, BBVA u otro banco. Solicita la cuenta, el CCI y el titular por WhatsApp.',
+ 'Tarjetas · Izipay':'Solicita tu link de pago por WhatsApp. Ábrelo para pagar con tarjeta de crédito o débito en Izipay.',
+};
+---
+<Layout title="Métodos de pago — ZENP">
+ <main id="contenido" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-20">
+  <nav aria-label="Ruta de navegación" class="mb-10 text-xs text-zinc-500"><a href="/">Inicio</a> / Métodos de pago</nav>
+  <div class="grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
+   <div><p class="mb-3 text-[10px] font-semibold uppercase tracking-[2px] text-zinc-500">Coordinamos por WhatsApp</p>
+    <h1 class="font-['Space_Grotesk'] text-4xl font-medium tracking-tight sm:text-6xl">Elige cómo pagar.</h1>
+    <p class="mt-5 max-w-xl text-sm leading-7 text-zinc-500">Primero confirmamos tu producto, disponibilidad, precio final y entrega. Después te compartimos los datos o el enlace para realizar el pago que prefieras.</p>
+   </div>
+   <figure class="overflow-hidden bg-white">
+    <div class="flex aspect-[4/3] items-center justify-center overflow-hidden bg-[#f4f4f4]">
+     <img src="/campus2.jpg" width="554" height="554" alt="Detalle de zapatillas Adidas Campus azules con franjas blancas" class="h-full w-auto max-w-full object-contain" decoding="async" fetchpriority="high"/>
+    </div>
+    <figcaption class="bg-zinc-950 px-6 py-4 font-['Space_Grotesk'] text-xl font-medium tracking-tight text-white">Tu próximo par empieza aquí.</figcaption>
+   </figure>
+  </div>
+  <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+   {pagos.metodos.map(metodo => <article class="border border-zinc-200 p-6 sm:p-7"><div class="mb-6 flex h-12 items-center text-zinc-800"><IconoPago metodo={metodo}/></div><h2 class="font-['Space_Grotesk'] text-xl font-medium tracking-tight">{metodo}</h2><p class="mt-3 text-xs leading-6 text-zinc-500">{descripciones[metodo]}</p></article>)}
+  </div>
+  <!-- <section class="mt-10 grid gap-6 bg-[#f3f4f0] p-7 sm:p-10 md:grid-cols-2">
+   <div><h2 class="font-['Space_Grotesk'] text-2xl font-medium tracking-tight">Un enlace para tu pedido.</h2><p class="mt-3 max-w-lg text-xs leading-6 text-zinc-600">Si eliges tarjeta, nuestro equipo te envía el link de Izipay por WhatsApp. Los datos de tu tarjeta se ingresan en la página de Izipay; no necesitas compartirlos por chat.</p></div>
+   <div class="flex flex-col items-start justify-center"><a href={whatsappUrl('Hola ZENP, quisiera coordinar el pago de mi pedido y conocer las opciones disponibles.')} target="_blank" rel="noopener noreferrer" class="bg-zinc-900 px-5 py-3 text-xs font-medium text-white">Coordinar mi pago por WhatsApp</a><a href="/#como-comprar" class="mt-5 border-b border-zinc-400 pb-1 text-xs text-zinc-600">Ver cómo comprar</a></div>
+  </section> -->
+  <EntregasInfo/>
+  <MapaUbicacion/>
+ </main>
+</Layout>

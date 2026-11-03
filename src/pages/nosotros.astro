@@ -1,5 +1,48 @@
 ---
+import { Image } from 'astro:assets';
+import MapaUbicacion from '../components/MapaUbicacion.astro';
+import { fotosNosotros } from '../data/home';
 import Layout from '../layouts/Layout.astro';
 import { whatsappUrl } from '../data/tienda';
+import fotoNosotros from '../assets/editorial/nosotros-sneakers.jpg';
 ---
-<Layout title="Nosotros — ZENP"><main id="contenido" class="container content-page [width:min(1240px,calc(100%_-_80px))] [margin:auto] [padding:55px_0_90px] max-[1100px]:[width:calc(100%_-_48px)] max-[760px]:[width:calc(100%_-_36px)] max-[760px]:[padding-top:35px]"><p class="breadcrumb [font-size:10px] [color:var(--muted)] [margin-bottom:45px] max-[760px]:[margin-bottom:30px]"><a href="/">Inicio</a> / Nosotros</p><div class="page-heading [margin-bottom:35px] [&_h1]:[font-family:'Space_Grotesk'] [&_h1]:[font-size:64px] [&_h1]:[letter-spacing:-3px] [&_h1]:[line-height:1.1] [&_h1]:[font-weight:500] [&>p:last-child]:[font-size:14px] [&>p:last-child]:[color:var(--muted)] [&>p:last-child]:[line-height:1.8] [&>p:last-child]:[margin-top:15px] max-[760px]:[&_h1]:[font-size:48px] max-[760px]:[&_h1]:[letter-spacing:-2px]"><p class="eyebrow [font-size:10px] [text-transform:uppercase] [letter-spacing:1.8px] [font-weight:600] [color:var(--muted)] [display:block] [margin-bottom:18px]">ZENP Originals</p><h1>Estilo y conexión<span class="accent [color:var(--green)]">.</span></h1><p>Una selección para lo que te gusta y para lo que viene.</p></div><div class="prose-grid [display:grid] [grid-template-columns:1.2fr_1fr] [gap:70px] [margin-top:50px] [&_h2]:[font-size:30px] [&_h2]:[letter-spacing:-1px] [&_h2]:[line-height:1.3] [&_h2]:[font-weight:500] [&_h2]:[margin-bottom:20px] [&_p]:[line-height:1.9] [&_p]:[color:var(--muted)] [&_p]:[margin-bottom:20px] max-[760px]:[grid-template-columns:1fr] max-[760px]:[gap:25px] max-[760px]:[margin-top:30px]"><div><h2>Un buen par. Un nuevo equipo.<br/>Algo que se sienta tuyo.</h2><p>En ZENP reunimos zapatillas urbanas, iPhones y tecnología en un catálogo sencillo de explorar. Queremos ayudarte a encontrar ese producto que tienes en mente, con atención directa y sin vueltas.</p><p>Tenemos artículos disponibles y opciones a pedido. Si buscas un modelo específico o una importación de Estados Unidos, escríbenos: revisamos las alternativas y te contamos los detalles antes de que decidas.</p><a class="button dark [display:inline-flex] [align-items:center] [justify-content:center] [gap:18px] [padding:15px_22px] [font-size:12px] [font-weight:500] [border:0] [background:var(--ink)] [color:white] [&:hover]:[background:var(--green)] [&:hover]:[color:white]" href={whatsappUrl()} target="_blank" rel="noopener noreferrer">Conversemos ↗</a></div><div class="info-panel [background:var(--paper)] [padding:35px] [&_h3]:[font-size:17px] [&_h3]:[margin:0_0_12px] max-[760px]:[padding:25px]"><p class="eyebrow [font-size:10px] [text-transform:uppercase] [letter-spacing:1.8px] [font-weight:600] [color:var(--muted)] [display:block] [margin-bottom:18px]">Así trabajamos</p><h3>Conversamos contigo</h3><p>Una atención personal para resolver dudas sobre tallas, capacidades y condiciones.</p><h3>Confirmamos los detalles</h3><p>Precio, disponibilidad, plazo y condiciones de compra antes de reservar.</p><h3>Coordinamos la entrega</h3><p>Consulta las opciones de entrega y envío para tu ciudad.</p></div></div></main></Layout>
+<Layout title="Nosotros — ZENP Originals" description="Más de 5 años en Lima acercándote zapatillas, iPhones y tecnología 100% originales. Pedidos desde USA, punto de recojo en Miraflores y envíos a todo el Perú.">
+  <main id="contenido" class="mx-auto max-w-7xl px-5 pt-9 pb-20 sm:px-8 sm:pt-14">
+    <nav aria-label="Ruta de navegación" class="mb-10 text-[11px] text-zinc-500"><a href="/" class="hover:text-zinc-900">Inicio</a> / Nosotros</nav>
+    <section class="grid items-center gap-9 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
+      <div class="min-w-0">
+        <p class="mb-4 text-[10px] font-semibold uppercase tracking-[2px] text-zinc-500">Desde Lima, Perú</p>
+        <h1 class="font-['Space_Grotesk'] text-5xl font-medium leading-[1.05] tracking-tight text-zinc-950 sm:text-6xl lg:text-7xl">Somos ZENP<br/>Originals.</h1>
+        <div class="mt-7 max-w-xl space-y-5 text-sm leading-7 text-zinc-600">
+          <p>Llevamos más de 5 años acercándote los pares que buscas y la tecnología que quieres. Empezamos y seguimos creciendo principalmente de forma virtual, con atención directa por WhatsApp y un punto de recojo en Miraflores.</p>
+          <p>Nos gustan las zapatillas que no ves en todas partes: modelos exclusivos, pares en tendencia y esos que llevas tiempo buscando. También trabajamos con iPhones, equipos de cómputo y periféricos. Todo <strong class="font-medium text-zinc-900">100% original</strong>.</p>
+          <p>Tenemos productos en stock y traemos pedidos por encargo desde Estados Unidos. Si no encuentras tu modelo o talla, cuéntanos qué buscas: revisamos las opciones y te confirmamos precio, disponibilidad y plazo antes de comprar.</p>
+        </div>
+        <a href={whatsappUrl('Hola ZENP, quisiera consultar por un producto.')} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex bg-zinc-900 px-6 py-3.5 text-xs font-medium text-white transition hover:bg-zinc-700">Hablemos de tu próximo pedido</a>
+      </div>
+      <div class="relative overflow-hidden bg-zinc-100">
+        <Image src={fotoNosotros} widths={[480,768,1100,1600]} sizes="(min-width: 768px) 45vw, 100vw" format="webp" quality={95} alt="Detalle de zapatillas Jordan blancas y negras en un look urbano" class="aspect-[4/5] w-full object-cover object-[center_58%]"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"></div>
+        <p class="absolute right-7 bottom-7 left-7 font-['Space_Grotesk'] text-2xl font-medium tracking-tight text-white sm:text-3xl">Pares originales.<br/>Atención de persona a persona.</p>
+      </div>
+    </section>
+
+    <dl class="mt-12 grid grid-cols-1 divide-y divide-zinc-200 border-y border-zinc-200 sm:mt-16 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div class="py-6 sm:pr-6"><dt class="font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-900">+5 años</dt><dd class="mt-2 text-xs text-zinc-500">En el rubro, atendiendo principalmente online.</dd></div>
+      <div class="py-6 sm:px-6"><dt class="font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-900">100% originales</dt><dd class="mt-2 text-xs text-zinc-500">Zapatillas, celulares y tecnología.</dd></div>
+      <div class="py-6 sm:pl-6"><dt class="font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-900">USA → Perú</dt><dd class="mt-2 text-xs text-zinc-500">Importaciones y pedidos por encargo.</dd></div>
+    </dl>
+
+    
+    
+    <MapaUbicacion/>
+    <section aria-labelledby="nosotros-fotos-titulo" class="mt-10">
+      <p class="mb-3 text-[10px] font-medium uppercase tracking-[2px] text-zinc-500">Entregas realizadas</p>
+      <h2 id="nosotros-fotos-titulo" class="font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-900">Cada pedido tiene a alguien detrás.</h2>
+      <p class="mt-3 max-w-xl text-xs leading-6 text-zinc-500">Algunos de los clientes que ya recibieron sus compras de ZENP.</p>
+      <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
+        {fotosNosotros.map(foto=><img src={foto.imagen} alt={foto.alt} width="1200" height="1600" loading="lazy" decoding="async" class="aspect-[3/4] w-full object-cover"/>)}
+      </div>
+    </section>
+  </main>
+</Layout>

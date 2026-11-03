@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import fotoJordan from '../assets/editorial/jordan-estilo.png';
+import fotoRazer from '../assets/editorial/razer-setup.jpg';
+import { urlCatalogo } from '../lib/navegacion';
+---
+<section aria-label="Explora sneakers y tecnología ZENP" class="mt-14 grid bg-zinc-950 sm:mt-20 md:grid-cols-2">
+  <a href={urlCatalogo('zapatillas',{brand:'Jordan'})} class="group relative block aspect-[4/5] overflow-hidden sm:aspect-[5/4] lg:aspect-[6/5]" aria-label="Explorar zapatillas Jordan">
+    <Image src={fotoJordan} widths={[480,768,960]} sizes="(min-width: 768px) 50vw, 100vw" format="webp" quality={80} alt="Detalle de zapatillas Jordan grises en un look urbano" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-[center_70%] transition-transform duration-700 group-hover:scale-[1.025] motion-reduce:transition-none"/>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-7 text-white sm:p-10 lg:p-14"><div><p class="mb-2 text-[9px] tracking-[2px] uppercase">Sneakers / ZENP</p><h2 class="font-['Space_Grotesk'] text-5xl font-bold tracking-tighter sm:text-6xl lg:text-7xl">JORDAN</h2></div><span class="pb-2 text-sm" aria-hidden="true">Explorar</span></div>
+  </a>
+  <a href={urlCatalogo('tecnologia',{brand:'Razer'})} class="group relative block aspect-[4/5] overflow-hidden sm:aspect-[5/4] lg:aspect-[6/5]" aria-label="Explorar tecnología Razer">
+    <Image src={fotoRazer} widths={[480,800,1187]} sizes="(min-width: 768px) 50vw, 100vw" format="webp" quality={80} alt="Mouse Razer rojo junto a un equipo de cómputo" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-[65%_center] transition-transform duration-700 group-hover:scale-[1.025] motion-reduce:transition-none"/>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-7 text-white sm:p-10 lg:p-14"><div><p class="mb-2 text-[9px] tracking-[2px] uppercase">Setup / ZENP</p><h2 class="font-['Space_Grotesk'] text-5xl font-bold tracking-tighter sm:text-6xl lg:text-7xl">RAZER</h2></div><span class="pb-2 text-sm" aria-hidden="true">Explorar</span></div>
+  </a>
+</section>

@@ -29,7 +29,13 @@ export const generoEtiqueta = (p: Pick<Producto, 'genero'>) =>
     unisex: '',
   })[p.genero!] || '';
 
+// Reconoce también mayúsculas y espacios adicionales del texto guardado en Sanity.
+export function esTallaAPedido(p: Producto, talla = '') {
+  return p.categoria === 'zapatillas' && /\ba\s+pedido\b/i.test(talla.trim());
+}
+
 export function precioProducto(p: Producto, talla = '') {
+  const mostrarDesde = Boolean(p.precioDesde) || (p.categoria === 'zapatillas' && (p.estado === 'pedido' || tallasProducto(p).some(t => esTallaAPedido(p,t))));
   const iphonePedido = p.categoria === 'iphones' && p.estado === 'pedido';
   const divisa: Divisa = iphonePedido ? 'USD' : (p.moneda || 'PEN');
   const variantes = p.categoria === 'zapatillas' ? p.preciosPorTalla || [] : [];
@@ -55,14 +61,16 @@ export function precioProducto(p: Producto, talla = '') {
         .map((v) => importe(v.precio, v.precioOferta))
         .filter((v) => v.valor !== null);
 
-      if (preciosValidos.length > 0 && p.precioDesde) {
+      if (preciosValidos.length > 0 && mostrarDesde) {
         precio = preciosValidos.sort((a, b) => a.valor! - b.valor!)[0];
       }
     }
   }
 
-  // 3. Solo anteponer "Desde " si NO se ha elegido una talla concreta Y está marcado explícitamente precioDesde
-  const desde = !talla && Boolean(p.precioDesde);
+  if (esTallaAPedido(p,talla)) precio = {valor:null,anterior:null};
+
+  // El mínimo se anuncia antes de elegir una talla; la importación abierta se cotiza.
+  const desde = !talla && mostrarDesde;
 
   const texto =
     precio.valor === null
@@ -84,7 +92,8 @@ export function precioProducto(p: Producto, talla = '') {
 
 export function mensajeProducto(p: Producto, seleccion = '') {
   const precio = precioProducto(p, p.categoria === 'zapatillas' ? seleccion : '');
-  const estado = {
+  const tallaPedido = esTallaAPedido(p,seleccion);
+  const estado = tallaPedido ? 'A pedido / importación' : {
     stock: 'En stock',
     pedido: 'A pedido / importación',
     agotado: 'Agotado',
@@ -93,6 +102,7 @@ export function mensajeProducto(p: Producto, seleccion = '') {
   return (
     `Hola ZENP, ${p.estado === 'agotado' ? 'quisiera consultar la reposición de' : 'me interesa'} ${p.nombre}. ` +
     `Precio publicado: ${precio.texto}. Disponibilidad: ${estado}.` +
+    (tallaPedido ? ' Quisiera consultar otra talla para importar. Mi talla es: ____. Por favor confirmar precio y plazo.' : '') +
     (p.categoria === 'zapatillas'
       ? ` ${generoEtiqueta(p) || 'Tallaje por confirmar'}. Talla: ${seleccion || 'por confirmar'}.`
       : '') +

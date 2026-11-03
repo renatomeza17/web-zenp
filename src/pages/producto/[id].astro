@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import { getProductos, modoDemo } from '../../lib/catalogo';
 import type { Producto } from '../../data/productos';
 import GuiaTallas from '../../components/GuiaTallas.astro';
-import { precioProducto, mensajeProducto, formatearPrecio, generoEtiqueta, tallasProducto } from '../../lib/precios';
+import { etiquetaTalla } from '../../lib/tallas';
+import { precioProducto, mensajeProducto, formatearPrecio, generoEtiqueta, tallasProducto, esTallaAPedido } from '../../lib/precios';
 import { whatsappUrl, categorias } from '../../data/tienda';
 
 export async function getStaticPaths() {
@@ -38,7 +39,7 @@ const descripcion =
   <main
     id="contenido"
     data-product={JSON.stringify(p)}
-    class="mx-auto w-[calc(100%-36px)] max-w-[1240px] pt-8 pb-20 md:w-[calc(100%-80px)]"
+    class="mx-auto w-[calc(100%_-_36px)] max-w-[1240px] pt-8 pb-20 md:w-[calc(100%_-_80px)]"
   >
     <!-- Migas de pan / Breadcrumb -->
     <nav class="mb-10 flex flex-wrap gap-2 text-[11px] text-[#747773]" aria-label="Ruta de navegación">
@@ -49,19 +50,19 @@ const descripcion =
       <span aria-current="page">{p.nombre}</span>
     </nav>
 
-    <div class="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+    <div class="grid min-w-0 grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-20">
       
       <!-- Columna 1: Galería de Imágenes -->
-      <section aria-label={`Fotografías de ${p.nombre}`}>
+      <section class="min-w-0" aria-label={`Fotografías de ${p.nombre}`}>
         <!-- Foto principal activa -->
-        <div class="relative aspect-square overflow-hidden bg-white">
+        <div class="relative aspect-square w-full overflow-hidden bg-white">
           <img
             id="product-main-image"
             src={imagenes[0]}
             alt={`${p.nombre}, foto 1 de ${imagenes.length}`}
             width="1000"
             height="1000"
-            class="h-full w-full object-contain"
+            class="absolute inset-0 h-full w-full max-w-full object-contain"
             fetchpriority="high"
           />
           <span
@@ -73,7 +74,7 @@ const descripcion =
         </div>
 
         <!-- Carrusel de Miniaturas -->
-        <div class="mt-4 flex gap-3 overflow-x-auto pb-2" role="group" aria-label="Elegir fotografía">
+        <div class="mt-4 flex w-full min-w-0 max-w-full gap-3 overflow-x-auto pb-2" role="group" aria-label="Elegir fotografía">
           {imagenes.map((imagen, index) => (
             <button
               type="button"
@@ -100,7 +101,7 @@ const descripcion =
       </section>
 
       <!-- Columna 2: Ficha Técnica y Acciones de Compra -->
-      <section class="lg:pt-8">
+      <section class="min-w-0 break-words lg:pt-8">
         <p class="mb-4 text-[11px] tracking-[2px] text-[#747773] uppercase">
           {p.marca} / {categoria.nombre}
         </p>
@@ -111,7 +112,7 @@ const descripcion =
 
         <!-- Estado de disponibilidad -->
         <div class="mt-5 flex flex-wrap items-center gap-3">
-          <span
+          <span id="product-status"
             class:list={[
               'px-3 py-1.5 text-[11px] font-medium',
               {
@@ -150,6 +151,11 @@ const descripcion =
         {p.categoria === 'zapatillas' && (precio.porTalla || p.estado === 'pedido') && <p class="mt-3 text-xs leading-6 text-[#747773]">El precio puede variar según la talla. Selecciona la tuya para ver el importe disponible.</p>}
         {p.categoria === 'iphones' && p.estado === 'pedido' && <p class="mt-3 text-xs leading-6 text-[#747773]">Precio de importación en dólares estadounidenses (USD). Confirma el total y las condiciones de pago por WhatsApp.</p>}
 
+        {(p.estado === 'pedido' || opciones.some(talla => esTallaAPedido(p,talla))) && <aside id="product-order-notice" hidden={p.estado !== 'pedido'} class="mt-6 flex gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-5" aria-label="Información del producto a pedido">
+          <svg class="mt-1 shrink-0 text-zinc-500" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 5h12v12H2zM14 9h4l4 4v4h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+          <div><p class="text-xs leading-6 text-zinc-600"><strong class="font-semibold text-zinc-900">Lo traemos para ti a pedido.</strong> La importación tiene un plazo orientativo de aproximadamente 2 semanas. Antes del pago, confirmamos por WhatsApp la disponibilidad, el precio final, desde cuándo se cuenta el plazo y la entrega para tu ubicación. Las actualizaciones de tu pedido se coordinan por WhatsApp.</p><a href="/metodos-de-pago/" class="mt-2 inline-block border-b border-zinc-300 text-xs leading-6 text-zinc-600">Conoce los métodos de pago</a></div>
+        </aside>}
+
         <p class="mt-6 text-sm leading-7 whitespace-pre-line text-[#666b63]">
           {descripcion}
         </p>
@@ -187,11 +193,13 @@ const descripcion =
             >
               {p.categoria === 'zapatillas' && <option value="">Selecciona una talla</option>}
               {opciones.map((opcion) => (
-                <option value={opcion}>{opcion}{p.categoria === 'zapatillas' ? ` US` : ''}{p.preciosPorTalla?.length ? ` — ${precioProducto(p, opcion).texto}` : ''}</option>
+                <option value={opcion}>{p.categoria === 'zapatillas' ? etiquetaTalla(opcion) : opcion}{p.preciosPorTalla?.length ? ` — ${precioProducto(p, opcion).texto}` : ''}</option>
               ))}
             </select>
           </div>
         )}
+
+        {p.categoria === 'zapatillas' && opciones.some(talla => esTallaAPedido(p,talla)) && <p class="mt-3 text-xs leading-6 text-zinc-500">¿Buscas otra talla? Elige “Otras tallas a pedido” para consultar su importación. El precio de las tallas en stock no se aplica a ese pedido.</p>}
 
         {p.categoria === 'zapatillas' && <GuiaTallas producto={p}/>}
 
@@ -204,12 +212,12 @@ const descripcion =
           rel="noopener noreferrer"
         >
           <img src="/brand-whatsapp.svg" alt="" width="20" height="20" class="brightness-0 invert" />
-          {p.estado === 'agotado'
+          <span id="product-whatsapp-label">{p.estado === 'agotado'
             ? 'Consultar reposición'
             : p.estado === 'pedido'
             ? 'Consultar pedido por WhatsApp'
-            : 'Consultar por WhatsApp'}
-          <span aria-hidden="true">↗</span>
+            : 'Consultar por WhatsApp'}</span>
+          
         </a>
 
         <p class="mt-3 text-center text-[11px] leading-5 text-[#747773]">
@@ -236,7 +244,7 @@ const descripcion =
 
 <script>
   import { whatsappUrl } from '../../data/tienda';
-  import { precioProducto, mensajeProducto, formatearPrecio } from '../../lib/precios';
+  import { precioProducto, mensajeProducto, formatearPrecio, esTallaAPedido } from '../../lib/precios';
   import type { Producto } from '../../data/productos';
 
   // Manejo de cambio de imagen principal al hacer clic en miniaturas
@@ -272,31 +280,23 @@ const descripcion =
       const previous = document.querySelector<HTMLElement>('#product-previous-price')!;
       const discount = document.querySelector<HTMLElement>('#product-discount')!;
 
-      // Si se seleccionó una talla específica o si el producto no tiene precioDesde, limpiamos el prefijo "Desde"
-      let textoPrecio = precioData.texto;
-      if (talla || !producto.precioDesde) {
-        textoPrecio = textoPrecio.replace(/^Desde\s+/i, '');
-      }
+      priceEl.textContent = precioData.texto;
+      priceEl.className = precioData.anterior ? 'text-3xl font-bold tracking-tight text-red-600' : 'text-3xl font-semibold text-zinc-900';
+      previous.hidden = precioData.anterior === null;
+      previous.textContent = precioData.anterior !== null ? formatearPrecio(precioData.anterior, precioData.divisa) : '';
+      if (discount) { discount.hidden = !precioData.descuento;
+      discount.textContent = precioData.descuento ? `−${precioData.descuento}%` : ''; }
 
-      // Si existe precio de oferta en el objeto y no estamos en una talla con precio propio
-      const tieneOferta = Boolean(producto.precioOferta && (!talla || !producto.preciosPorTalla?.length));
-      
-      if (tieneOferta && (!talla || !producto.preciosPorTalla?.length)) {
-        priceEl.textContent = `S/ ${producto.precioOferta}`;
-        priceEl.className = 'text-3xl font-bold tracking-tight text-red-600';
-        previous.hidden = false;
-        previous.textContent = `S/ ${producto.precio}`;
-        discount.hidden = false;
-        const pct = Math.round((1 - (producto.precioOferta! / producto.precio)) * 100);
-        discount.textContent = `−${pct}%`;
-      } else {
-        priceEl.textContent = textoPrecio;
-        priceEl.className = precioData.anterior ? 'text-3xl font-bold tracking-tight text-red-600' : 'text-3xl font-semibold text-zinc-900';
-        previous.hidden = precioData.anterior === null;
-        previous.textContent = precioData.anterior !== null ? formatearPrecio(precioData.anterior, precioData.divisa) : '';
-        discount.hidden = !precioData.descuento;
-        discount.textContent = precioData.descuento ? `−${precioData.descuento}%` : '';
+      const pedido = producto.estado === 'pedido' || esTallaAPedido(producto,talla);
+      const aviso = document.querySelector<HTMLElement>('#product-order-notice');
+      if (aviso) aviso.hidden = !pedido;
+      const status = document.querySelector<HTMLElement>('#product-status');
+      if (status) {
+        status.textContent = pedido ? 'A pedido / importación' : producto.estado === 'stock' ? 'En stock' : 'Agotado';
+        status.className = `px-3 py-1.5 text-[11px] font-medium ${pedido ? 'bg-[#faf3e5] text-[#815f2d]' : producto.estado === 'stock' ? 'bg-[#edf5eb] text-[#306247]' : 'bg-[#f3f4f0] text-[#656963]'}`;
       }
+      const label = document.querySelector('#product-whatsapp-label');
+      if (label) label.textContent = producto.estado === 'agotado' ? 'Consultar reposición' : pedido ? 'Consultar pedido por WhatsApp' : 'Consultar por WhatsApp';
 
       link!.href = whatsappUrl(mensajeProducto(producto, select?.value || ''));
     }

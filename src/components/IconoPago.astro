@@ -1,0 +1,6 @@
+---
+const { metodo } = Astro.props as {metodo:string};
+---
+{metodo === 'Yape' ? <img src="/pagos/yape-morado.png" alt="Yape" width="36" height="36" class="h-9 w-9 object-contain" loading="lazy" decoding="async"/> : metodo === 'Plin' ? <img src="/pagos/plin.png" alt="Plin" width="40" height="32" class="h-8 w-10 object-contain" loading="lazy" decoding="async"/> : metodo === 'Tarjetas · Izipay' ? <span class="inline-flex items-center gap-2"><img src="/pagos/izipay.png" alt="Izipay" width="74" height="22" class="h-6 w-[74px] object-contain" loading="lazy"/><img src="/pagos/visa.svg" alt="Visa" width="38" height="26" loading="lazy"/><img src="/pagos/mastercard.svg" alt="Mastercard" width="38" height="26" loading="lazy"/></span> : <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" role="img" aria-label={metodo}>
+  {metodo === 'Tarjetas · Izipay' ? <><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></> : <><path d="m3 8 9-5 9 5H3ZM3 21h18M5 18v-7m5 7v-7m4 7v-7m5 7v-7M3 18h18"/></>}
+</svg>}

@@ -7,7 +7,7 @@ const { id,titulo,subtitulo,enlace,textoEnlace = 'Ver todos',productos } = Astro
 {productos.length > 0 && <section id={id} aria-labelledby={`${id}-titulo`} class="container mx-auto max-w-7xl scroll-mt-28 px-4 pt-12 pb-4 sm:px-6 md:pt-20 lg:px-8">
   <div class="mb-7 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
     <div><p class="mb-2.5 text-[10px] font-semibold tracking-[1.8px] text-[var(--muted)] uppercase">{subtitulo}</p><h2 id={`${id}-titulo`} class="font-['Space_Grotesk',sans-serif] text-3xl leading-tight font-medium tracking-tight text-zinc-900 sm:text-4xl">{titulo}</h2></div>
-    <a class="border-b border-[#bbbfb7] pb-1 text-xs transition-colors hover:border-zinc-900" href={enlace}>{textoEnlace} <span aria-hidden="true">↗</span></a>
+    <a class="border-b border-[#bbbfb7] pb-1 text-xs transition-colors hover:border-zinc-900" href={enlace}>{textoEnlace} </a>
   </div>
   <div class="product-grid grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-7">{productos.slice(0,4).map(p => <CardProducto producto={p}/>)}</div>
 </section>}

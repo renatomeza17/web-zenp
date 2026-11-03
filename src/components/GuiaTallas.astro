@@ -1,18 +1,39 @@
 ---
-import { guiasTallas } from '../data/guias-tallas';
-import { generoEtiqueta } from '../lib/precios';
+import { obtenerGuiaTallas } from '../data/guias-tallas';
 import type { Producto } from '../data/productos';
 const { producto:p } = Astro.props as {producto:Producto};
-const guia = guiasTallas[p.marca.trim().toLowerCase()];
-const enlaces = guia?.enlaces.filter(e => p.genero !== 'mujer' || !e.nombre.startsWith('Hombre')).filter(e => p.genero !== 'hombre' || !e.nombre.startsWith('Mujer ·')) || [];
+const guia = obtenerGuiaTallas(p.marca);
+const genero = p.genero === 'mujer' ? 'mujer' : 'hombre';
 ---
-<details class="mt-5 border-y border-[#e6e7e3] py-4">
+<details data-size-guide class="mt-5 border-y border-[#e6e7e3] py-4">
   <summary class="cursor-pointer text-xs font-medium text-zinc-900">Guía de tallas · {guia?.nombre || p.marca}</summary>
   <div class="mt-4 space-y-4 text-xs leading-6 text-[#666b63]">
-    {generoEtiqueta(p) && <p class="font-medium text-zinc-900">Este par: {generoEtiqueta(p)}</p>}
-    <ol class="list-decimal space-y-2 pl-4"><li>De pie sobre una hoja, marca el talón y el extremo del dedo más largo.</li><li>Mide ambos pies en centímetros y conserva la medida mayor.</li><li>Consulta la tabla de {p.marca} para el tallaje de este par y confirma la talla con nuestro equipo.</li></ol>
-    <p>Las tallas US de mujer (W) y hombre (M) son distintas. Revisa la columna correspondiente; la medida del pie y la medida de la etiqueta pueden ser diferentes.</p>
-    <div class="flex flex-wrap gap-3">{enlaces.map(e => <a class="border-b border-[#bbbfb7] text-zinc-900" href={e.url} target="_blank" rel="noopener noreferrer">{e.nombre} ↗</a>)}</div>
-    {!guia && <p>Escríbenos para confirmar la guía y equivalencias de esta marca.</p>}
+    {guia ? <>
+      <p>Consulta las equivalencias de {guia.nombre} aquí mismo. Selecciona el tallaje de hombre o mujer para este par.</p>
+      <div class="flex gap-2" aria-label="Tallaje de la guía">
+        {guia.tablas.map(tabla => <button type="button" data-size-tab={tabla.genero} aria-pressed={tabla.genero === genero} class="rounded-full border border-zinc-200 px-4 py-1.5 text-xs transition aria-pressed:border-zinc-900 aria-pressed:bg-zinc-900 aria-pressed:text-white">{tabla.titulo}</button>)}
+      </div>
+      {guia.tablas.map(tabla => <div data-size-panel={tabla.genero} hidden={tabla.genero !== genero}>
+        <div class="max-h-72 overflow-auto rounded border border-zinc-200" tabindex="0" role="region" aria-label={`Tabla ${guia.nombre} ${tabla.titulo}`}>
+          <table class="w-full border-collapse text-center text-xs tabular-nums">
+            <caption class="sr-only">Equivalencias adultas {guia.nombre} · {tabla.titulo}</caption>
+            <thead class="sticky top-0 bg-[#f3f4f0] text-zinc-900"><tr><th scope="col" class="px-3 py-3">{tabla.titulo}</th><th scope="col" class="px-3 py-3">EU</th><th scope="col" class="px-3 py-3">UK</th><th scope="col" class="px-3 py-3">{guia.etiquetaCm}</th></tr></thead>
+            <tbody>{tabla.filas.map(fila => <tr class="border-t border-zinc-100 odd:bg-white even:bg-zinc-50"><th scope="row" class="px-3 py-2 font-medium text-zinc-900">{fila.us}</th><td class="px-3 py-2">{fila.eu}</td><td class="px-3 py-2">{fila.uk}</td><td class="px-3 py-2">{fila.cm}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </div>)}
+      <p>{guia.nota}</p>
+      <p>Para medir tu pie, marca el talón y el dedo más largo sobre una hoja y mide ambos pies. Usa la medida mayor. Esta guía es para tallas adultas y no indica disponibilidad; confirma el calce del modelo con nuestro equipo.</p>
+    </> : <p>Para esta marca, consulta con nuestro equipo la tabla específica y las equivalencias de tu modelo.</p>}
   </div>
 </details>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-size-guide]').forEach(guide => {
+    const tabs = [...guide.querySelectorAll<HTMLButtonElement>('[data-size-tab]')];
+    const panels = [...guide.querySelectorAll<HTMLElement>('[data-size-panel]')];
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(item => item.setAttribute('aria-pressed',String(item === tab)));
+      panels.forEach(panel => panel.hidden = panel.dataset.sizePanel !== tab.dataset.sizeTab);
+    }));
+  });
+</script>

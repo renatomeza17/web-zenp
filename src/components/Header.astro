@@ -9,22 +9,22 @@ const navMenu = menuCatalogo(await getProductos());
 ---
 
 <!-- Cinta de anuncios superior -->
-<div class="announcement text-center bg-[#101211] text-[#bbbfb9] text-[10px] tracking-[1px] py-[9px] px-[15px] [&_span]:px-[14px] max-[1023px]:text-[8px] max-[1023px]:tracking-[0.3px] max-[1023px]:[&_span]:px-[5px]">
-  Envíos a todo el Perú <span>·</span> Stock disponible & pedidos por encargo
+<div class="announcement text-center bg-[#101211] text-[#bbbfb9] text-[10px] tracking-[1px] py-[9px] px-[15px] [&_span]:px-[14px] max-[1279px]:text-[8px] max-[1279px]:tracking-[0.3px] max-[1279px]:[&_span]:px-[5px]">
+  Contra entrega en Lima <span>·</span> Envíos a todo el Perú
 </div>
 
 <!-- Header Principal -->
 <header class="site-header bg-[var(--ink,#121312)] text-white sticky top-0 z-40 border-b border-[#252826]">
-  <div class="container header-inner w-[min(1240px,calc(100%_-_80px))] mx-auto h-[80px] flex items-center gap-[24px] max-[1100px]:w-[calc(100%_-_48px)] max-[1100px]:gap-[16px] max-[1023px]:w-[calc(100%_-_36px)] max-[1023px]:h-[65px]">
+  <div class="container header-inner w-[min(1240px,calc(100%_-_80px))] mx-auto h-[80px] flex items-center gap-[24px] max-[1100px]:w-[calc(100%_-_48px)] max-[1100px]:gap-[16px] max-[1279px]:w-[calc(100%_-_36px)] max-[1279px]:h-[65px]">
     
     <!-- Logo -->
-    <a href="/" class="wordmark font-['Space_Grotesk',sans-serif] text-[34px] font-bold tracking-[-2px] inline-flex items-center shrink-0 max-[1023px]:text-[29px]" aria-label="ZENP, inicio">
+    <a href="/" class="wordmark font-['Space_Grotesk',sans-serif] text-[34px] font-bold tracking-[-2px] inline-flex items-center shrink-0 max-[1279px]:text-[29px]" aria-label="ZENP, inicio">
       <img src="/logo.jpg" alt="Logo" class="w-15 h-15 rounded-full object-cover  mr-2" onerror="this.style.display='none'" />
       <!-- <span>ZENP<span class="text-emerald-400">.</span></span> -->
     </a>
 
     <!-- Navegación Escritorio con Desplegables en Hover -->
-    <nav class="desktop-nav flex gap-[24px] ml-[20px] text-[13px] font-medium max-[1100px]:ml-[10px] max-[1100px]:gap-[16px] max-[1023px]:hidden" aria-label="Principal">
+    <nav class="desktop-nav flex gap-[18px] ml-[12px] text-[12px] font-medium max-[1100px]:ml-[10px] max-[1100px]:gap-[16px] max-[1279px]:hidden" aria-label="Principal">
       {navMenu.map((item) => (
         <div class="relative group py-6">
           <a href={item.enlace} class="text-[#c8cbc6] group-hover:text-white transition flex items-center gap-1.5 cursor-pointer">
@@ -48,10 +48,12 @@ const navMenu = menuCatalogo(await getProductos());
       <div class="py-6">
         <a href="/nosotros/" class="text-[#c8cbc6] hover:text-white transition">Nosotros</a>
       </div>
+      <div class="py-6"><a href="/#como-comprar" class="whitespace-nowrap text-[#c8cbc6] transition hover:text-white">Cómo comprar</a></div>
+      <div class="py-6"><a href="/metodos-de-pago/" class="whitespace-nowrap text-[#c8cbc6] transition hover:text-white">Métodos de pago</a></div>
     </nav>
 
     <!-- Buscador Integrado (Input interactivo para PC) -->
-    <div class="header-search ml-auto relative flex items-center w-52 sm:w-64 max-[1023px]:hidden">
+    <div class="header-search ml-auto relative flex items-center w-40 xl:w-64 min-w-0 max-[1279px]:hidden">
       <svg class="w-4 h-4 text-[#a3a69f] absolute left-2.5 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <circle cx="10.5" cy="10.5" r="7" stroke-width="1.5"/>
         <path d="m16 16 5 5" stroke-width="1.5"/>
@@ -65,12 +67,12 @@ const navMenu = menuCatalogo(await getProductos());
     </div>
 
     <!-- Acciones Móvil & WhatsApp -->
-    <div class="flex items-center gap-2 ml-auto min-[1024px]:ml-0">
+    <div class="flex items-center gap-2 ml-auto min-[1280px]:ml-0">
       <!-- Botón de Lupa en Móvil -->
       <button 
         id="btn-toggle-search-mobile" 
         type="button" 
-        class="hidden max-[1023px]:flex items-center justify-center p-2 rounded-lg text-[#a3a69f] hover:text-white bg-[#181a19] border border-[#3b3f3c]"
+        class="hidden max-[1279px]:flex items-center justify-center p-2 rounded-lg text-[#a3a69f] hover:text-white bg-[#181a19] border border-[#3b3f3c]"
         aria-label="Abrir buscador" aria-controls="search-bar-mobile" aria-expanded="false"
       >
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,18 +83,18 @@ const navMenu = menuCatalogo(await getProductos());
 
       <!-- Botón WhatsApp -->
       <a 
-        class="header-wa flex gap-[8px] items-center text-[12px] py-[10px] px-[16px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl max-[1023px]:p-[9px] transition active:scale-95 shadow-lg shadow-emerald-500/20" 
+        class="header-wa flex gap-[8px] items-center text-[12px] py-[10px] px-[16px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl max-[1279px]:p-[9px] transition active:scale-95 shadow-lg shadow-emerald-500/20" 
         href={whatsappUrl()} 
         target="_blank" 
         rel="noopener noreferrer"
       >
         <img src="/brand-whatsapp.svg" width="18" height="18" alt="" class="brightness-0 invert" onerror="this.style.display='none'" />
-        <span class="max-[1023px]:hidden">Hablemos</span>
+        <span class="max-[1279px]:hidden">Hablemos</span>
       </a>
 
       <!-- Botón Hamburguesa Móvil -->
       <button 
-        class="menu-toggle hidden max-[1023px]:block bg-transparent border-none text-white text-[24px] p-1 cursor-pointer" 
+        class="menu-toggle hidden max-[1279px]:block bg-transparent border-none text-white text-[24px] p-1 cursor-pointer" 
         aria-label="Abrir menú" 
         aria-expanded="false" 
         aria-controls="mobile-nav"
@@ -103,7 +105,7 @@ const navMenu = menuCatalogo(await getProductos());
   </div>
 
   <!-- Barra de Búsqueda Desplegable para Móvil -->
-  <div id="search-bar-mobile" hidden class="min-[1024px]:hidden border-t border-[#2d312e] bg-[#141615] px-4 py-2.5">
+  <div id="search-bar-mobile" hidden class="min-[1280px]:hidden border-t border-[#2d312e] bg-[#141615] px-4 py-2.5">
     <div class="relative flex items-center">
       <svg class="w-4 h-4 text-[#a3a69f] absolute left-3 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <circle cx="10.5" cy="10.5" r="7" stroke-width="1.5"/>
@@ -120,7 +122,7 @@ const navMenu = menuCatalogo(await getProductos());
 
   <!-- Menú Móvil Desplegable -->
   <nav id="mobile-nav" class="mobile-nav py-4 px-6 border-t border-[#2d312e] text-sm bg-[#121312] space-y-3" aria-label="Navegación móvil" hidden>
-    <a href="/catalogo/" class="block text-emerald-400 font-bold py-1">Ver todo el catálogo ↗</a>
+    <a href="/catalogo/" class="block text-emerald-400 font-bold py-1">Ver todo el catálogo</a>
     
     {navMenu.map((cat) => (
       <details class="group border-b border-[#222523] pb-2">
@@ -131,7 +133,7 @@ const navMenu = menuCatalogo(await getProductos());
           </svg>
         </summary>
         <div class="pl-3 pt-1 space-y-1.5 text-xs text-[#a3a69f]">
-          <a href={cat.enlace} class="block py-1 font-medium text-white">Ver todo en {cat.titulo.toLowerCase()} ↗</a>
+          <a href={cat.enlace} class="block py-1 font-medium text-white">Ver todo en {cat.titulo.toLowerCase()}</a>
           {cat.marcas.map((m) => (
             <a href={m.href} class="block py-1 hover:text-emerald-400">{m.nombre}</a>
           ))}
@@ -141,6 +143,8 @@ const navMenu = menuCatalogo(await getProductos());
 
     <a href="/nosotros/" class="block py-1.5 text-[#c8cbc6]">Nosotros</a>
     <a href="/contacto/" class="block py-1.5 text-[#c8cbc6]">Contacto</a>
+    <a href="/#como-comprar" class="block py-1.5 text-[#c8cbc6]">Cómo comprar</a>
+    <a href="/metodos-de-pago/" class="block py-1.5 text-[#c8cbc6]">Métodos de pago</a>
   </nav>
 </header>
 

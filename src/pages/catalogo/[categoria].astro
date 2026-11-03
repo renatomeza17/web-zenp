@@ -1,6 +1,7 @@
 ---
 // src/pages/catalogo/[categoria].astro
 import Layout from '../../layouts/Layout.astro';
+import MarcasHome from '../../components/MarcasHome.astro';
 import Catalogo from '../../components/Catalogo.astro';
 import { categorias } from '../../data/tienda';
 import { getProductos } from '../../lib/catalogo';
@@ -69,6 +70,8 @@ const productos = (await getProductos()).filter((p) => p.categoria === c.slug);
         </a>
       ))}
     </nav>
+
+    {c.slug === 'zapatillas' && <MarcasHome productos={productos} integrado/>}
 
     <!-- Componente con la grilla y filtros de productos -->
     <Catalogo productos={productos} categoria={c.slug} />

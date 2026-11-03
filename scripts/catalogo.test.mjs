@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { paginar } from '../src/lib/paginacion.ts';
 import { menuCatalogo, urlCatalogo, familiaIphone, parametrosFiltro } from '../src/lib/navegacion.ts';
 import { filtrarYOrdenar } from '../src/lib/filtros.ts';
-import { normalizarTallaUS } from '../src/lib/tallas.ts';
+import { normalizarTallaUS, etiquetaTalla } from '../src/lib/tallas.ts';
 
 test('Tallas US compatibles se agrupan sin convertir tallas europeas ni texto de pedidos', () => {
   assert.equal(normalizarTallaUS('8'), 'US 8');
@@ -13,6 +13,9 @@ test('Tallas US compatibles se agrupan sin convertir tallas europeas ni texto de
   assert.equal(normalizarTallaUS('38 EUR'), null);
   assert.equal(normalizarTallaUS('40.5'), null);
   assert.equal(normalizarTallaUS('Otras tallas a pedido'), null);
+  assert.equal(etiquetaTalla('8 W'),'US 8 W');
+  assert.equal(etiquetaTalla('US 8'),'US 8');
+  assert.equal(etiquetaTalla('38 EUR'),'38 EUR');
 });
 
 test('Páginas de 12 conservan todos los productos sin repetirlos', () => {

@@ -58,7 +58,7 @@ Estos importes son ejemplos: reemplázalos por tus precios reales. La tarjeta y 
 
 `precioDesde: true` permite mostrar Desde aunque aún uses un precio base. La opción Desde se muestra únicamente si activas `precioDesde`, respetando la configuración actual de Sanity. El producto `zap-05` ilustra los precios por talla de mujer; es una muestra que debes revisar o eliminar antes de publicar.
 
-Las fichas incluyen una guía desplegable con instrucciones de medición y enlaces oficiales por marca y tallaje. Configuración: `src/data/guias-tallas.ts`. Jordan utiliza la referencia de tallaje de Nike; confirma el ajuste específico de cada modelo.
+Las fichas incluyen una guía desplegable con tablas dentro de la misma página, según marca y tallaje de hombre o mujer, además de instrucciones de medición. Configuración: `src/data/guias-tallas.ts`. Jordan utiliza la referencia de tallaje de Nike; confirma el ajuste específico de cada modelo.
 
 ## iPhones a pedido en dólares
 
@@ -128,3 +128,40 @@ Transferencia bancaria utiliza un símbolo vectorial accesible; los tres método
 Las secciones del inicio y las tarjetas recuperaron el ancho, la distribución y la tipografía que tenían antes de la ampliación. Se retiró el bloque editorial intermedio.
 
 Se quitaron los filtros Condición (iPhones) y Moneda (todas las categorías). En zapatillas aparecen Talla US y Género (Hombre/Mujer). El filtro US normaliza valores como `8`, `8 W` y `US 8` a `US 8`; las tallas originales permanecen intactas en las fichas y mensajes. Valores como `38 EUR`, `40.5` u “Otras tallas a pedido” no se etiquetan ni se convierten automáticamente a US.
+
+
+## Nuevas secciones visuales y compra por WhatsApp
+
+- `MarcasHome.astro`: marcas reales del catálogo, con enlace al filtro correspondiente. Los SVG locales proceden de Simple Icons (https://cdn.simpleicons.org/). Las marcas sin SVG configurado se muestran por su nombre; no implica afiliación oficial.
+- `EditorialHome.astro`: fotografías de Jordan y Razer con enlaces a sus colecciones. Los originales proceden de las imágenes que ya estaban en el proyecto; Astro genera WebP responsive y aplica lazy loading. Son imágenes editoriales, no fotos de entregas de clientes.
+- `ComoComprar.astro`: ejemplo interactivo en tres pasos usando un producto publicado y sus tallas/precios reales. El mensaje se actualiza al cambiar la selección. El botón abre WhatsApp con texto preparado; el visitante debe pulsar Enviar dentro de WhatsApp. No se envían mensajes automáticamente desde la web.
+- `ComunidadHome.astro`: enlace al Instagram oficial y espacio opcional para fotos reales de entregas. Agrega imágenes autorizadas en `fotosComunidad` de `src/data/home.ts`; vacío, la sección muestra solo el acceso a redes.
+
+### Banners de inicio
+
+Los banners ahora son imágenes completas administrables desde Sanity, con versión horizontal y vertical. Consulta `BANNERS.md` para medidas, carga de diseños y publicación. La configuración HTML anterior ya no se utiliza en el carrusel.
+
+El nombre de la marca sigue siendo texto HTML separado de la foto, para conservar legibilidad y accesibilidad en móvil. El carrusel tiene controles, navegación por teclado y gesto horizontal; no avanza solo. Las diapositivas inactivas quedan fuera del foco y del lector de pantalla.
+
+### Entrega y contraentrega
+
+No hay condiciones confirmadas de contraentrega, zonas, costos ni adelantos. La web indica que la disponibilidad, forma de pago, modalidad, costo y plazo de entrega se coordinan por WhatsApp. La pregunta frecuente sobre contraentrega invita a consultar si aplica en la ciudad o distrito. Antes de publicar una política concreta, confirma estos detalles con el dueño de ZENP.
+
+
+### Logotipo Jordan y enlaces
+
+Jordan usa su símbolo Jumpman en `public/marcas/jordan.svg`. Fuente: https://en.wikipedia.org/wiki/File:Jumpman_logo.svg (archivo https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg). No se dibujó una versión aproximada del símbolo.
+
+Se retiraron las flechas diagonales de todos los componentes y páginas. Los controles horizontales del carrusel y los iconos de despliegue de los menús se conservan como controles de navegación.
+
+## Página de métodos de pago
+
+`/metodos-de-pago/` explica Yape, Plin, transferencia desde el banco de preferencia y tarjetas mediante un link de Izipay enviado por WhatsApp. No publica cuentas bancarias ni un enlace de cobro fijo. Los logos locales de Yape e Izipay provienen de sus sitios oficiales; Visa y Mastercard usan los SVG de `aaronfagan/svg-credit-card-payment-icons`. `IconoPago.astro` comparte los símbolos entre la página y el footer. La foto editorial de Jordan se optimiza con Astro.
+
+## Stock con otras tallas a pedido
+
+Mantén el producto como En stock y agrega `Otras tallas a pedido` a su lista de tallas. Al seleccionarla, la ficha muestra el aviso de importación, cambia la disponibilidad visible y prepara la consulta de talla para importar por WhatsApp. El precio se consulta y no hereda la oferta del stock. Al regresar a una talla concreta, recupera su estado y precio. No requiere cambiar el esquema de Sanity.
+
+## Administración de banners
+
+Guía completa en `BANNERS.md`. Esquema `portada`, documento único `portada`, lista de banners ordenable por arrastre. Los precios dibujados en una imagen deben actualizarse reemplazando el diseño. El Studio y los cambios de contenido requieren publicación; la web estática necesita una reconstrucción o webhook.

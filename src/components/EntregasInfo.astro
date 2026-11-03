@@ -1,0 +1,12 @@
+---
+import { entregas, whatsappUrl } from '../data/tienda';
+---
+<section id="entregas" aria-labelledby="entregas-titulo" class="mt-10 border-y border-zinc-200 py-8 sm:py-10">
+  <p class="mb-3 text-[10px] font-semibold uppercase tracking-[2px] text-zinc-500">Recojo y envíos</p>
+  <h2 id="entregas-titulo" class="font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-900">Elige cómo recibir tu pedido.</h2>
+  <div class="mt-6 grid gap-7 md:grid-cols-3 md:gap-9">
+    <div><h3 class="text-sm font-medium text-zinc-900">Punto de recojo</h3><p class="mt-3 text-xs leading-6 text-zinc-600">{entregas.direccion}.</p><a href={entregas.mapa} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block border-b border-zinc-400 pb-1 text-xs text-zinc-800">Ver ubicación en el mapa</a></div>
+    <div><h3 class="text-sm font-medium text-zinc-900">Contra entrega en todo Lima · S/ {entregas.tarifaLima}</h3><p class="mt-3 text-xs leading-6 text-zinc-600">Tarifa plana de envío a todo Lima. Coordinamos la dirección y el horario por WhatsApp.</p><a href={whatsappUrl('Hola ZENP, quisiera coordinar una entrega contraentrega en Lima con la tarifa de S/ 10. Mi distrito es: ')} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block border-b border-zinc-400 pb-1 text-xs text-zinc-800">Coordinar mi entrega</a></div>
+    <div><h3 class="text-sm font-medium text-zinc-900">Envíos a todo el Perú</h3><p class="mt-3 text-xs leading-6 text-zinc-600">Para envíos fuera de Lima, confirmamos el costo y plazo según tu ciudad.</p><a href={whatsappUrl('Hola ZENP, quisiera consultar el costo de envío a mi ciudad: ')} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block border-b border-zinc-400 pb-1 text-xs text-zinc-800">Consultar envío a mi ciudad</a></div>
+  </div>
+</section>

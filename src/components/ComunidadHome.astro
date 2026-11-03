@@ -1,0 +1,20 @@
+---
+import { tienda } from '../data/tienda';
+import { fotosComunidad } from '../data/home';
+const instagram = tienda.redes.find(red => red.nombre === 'Instagram');
+const unaFoto = fotosComunidad.length === 1;
+---
+<section aria-labelledby="comunidad-titulo" class="container mx-auto max-w-7xl px-4 pt-10 sm:px-6 sm:pt-12 lg:px-8">
+  <div class:list={['border-y border-zinc-200 py-7 sm:py-8',unaFoto && 'grid items-center gap-7 md:grid-cols-[1.2fr_0.8fr] md:gap-12']}>
+    <div class="flex flex-col items-start gap-5">
+      <div><p class="mb-3 text-[10px] font-medium uppercase tracking-[2px] text-zinc-500">Entregas ZENP</p>
+      <h2 id="comunidad-titulo" class="max-w-xl font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-950 sm:text-4xl">Pedidos entregados.</h2>
+      <p class="mt-4 max-w-md text-xs leading-6 text-zinc-500">De nuestro catálogo a tus manos. Aquí compartimos algunas de nuestras entregas, coordinadas directamente con cada cliente.</p>
+      <p class="mt-3 max-w-md text-xs leading-6 text-zinc-500">Puedes recoger tu pedido o te lo envíamos a la puerta de tu casa.</p></div>
+      {instagram && <a href={instagram.url} target="_blank" rel="noopener noreferrer" class="inline-block border-b border-zinc-400 pb-1 text-xs font-medium text-zinc-800">Síguenos en Instagram</a>}
+    </div>
+    {fotosComunidad.length > 0 && <div class:list={[unaFoto ? 'flex justify-center md:justify-end' : 'mt-7 grid grid-cols-2 gap-3 md:grid-cols-4']}>
+      {fotosComunidad.map(foto => <figure class:list={[unaFoto && 'w-full max-w-[260px]']}><img src={foto.imagen} alt={foto.alt} width="1200" height="1600" class="aspect-[3/4] w-full object-cover" loading="lazy" decoding="async"/></figure>)}
+    </div>}
+  </div>
+</section>
