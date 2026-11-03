@@ -34,6 +34,7 @@ export default defineType({
           { title: 'Zapatillas', value: 'zapatillas' },
           { title: 'iPhones & Apple', value: 'iphones' },
           { title: 'Tecnología', value: 'tecnologia' },
+          { title: 'Ropa', value: 'ropa' },
         ],
         layout: 'radio',
       },
@@ -43,7 +44,7 @@ export default defineType({
       name: 'marca',
       title: 'Marca',
       type: 'string',
-      description: 'Ej: Nike, Apple, Jordan, Adidas, Razer',
+      description: 'Ej: Nike, Apple, Jordan, Adidas, Razer, Lacoste, On',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -55,7 +56,7 @@ export default defineType({
     }),
     defineField({
       name: 'genero',
-      title: 'Género (Solo Zapatillas)',
+      title: 'Género (Zapatillas y Ropa)',
       type: 'string',
       options: {
         list: [
@@ -65,14 +66,14 @@ export default defineType({
         ],
         layout: 'radio',
       },
-      hidden: ({ parent }) => parent?.categoria !== 'zapatillas',
+      hidden: ({ parent }) => !['zapatillas', 'ropa'].includes(parent?.categoria),
     }),
     defineField({
       name: 'tipo',
-      title: 'Tipo de Accesorio (Solo Tecnología)',
+      title: 'Tipo de producto (Tecnología y Ropa)',
       type: 'string',
-      description: 'Ej: Mouses, Teclados, Audio, Cables',
-      hidden: ({ parent }) => parent?.categoria !== 'tecnologia',
+      description: 'Ej: Shorts, Polos, Casacas; o Mouses, Teclados, Audio',
+      hidden: ({ parent }) => !['tecnologia', 'ropa'].includes(parent?.categoria),
     }),
     defineField({
       name: 'estado',
@@ -144,13 +145,13 @@ export default defineType({
         {
           type: 'object',
           fields: [
-            { name: 'talla', title: 'Talla (Ej: US 7)', type: 'string' },
+            { name: 'talla', title: 'Talla (Ej: M o US 7)', type: 'string' },
             { name: 'precio', title: 'Precio', type: 'number' },
             { name: 'precioOferta', title: 'Precio de Oferta', type: 'number' },
           ],
         },
       ],
-      hidden: ({ parent }) => parent?.categoria !== 'zapatillas',
+      hidden: ({ parent }) => !['zapatillas', 'ropa'].includes(parent?.categoria),
     }),
 
     // --- FOTOS ---
@@ -168,10 +169,11 @@ export default defineType({
     // --- ESPECÍFICOS: ZAPATILLAS ---
     defineField({
       name: 'tallas',
-      title: 'Tallas Disponibles (Ej: US 8, US 9)',
+      description: 'Ropa: S, M, L, XL o talla numérica. Zapatillas: US 8, US 9. Una talla por elemento.',
+      title: 'Tallas disponibles (Zapatillas o Ropa)',
       type: 'array',
       of: [{ type: 'string' }],
-      hidden: ({ parent }) => parent?.categoria !== 'zapatillas',
+      hidden: ({ parent }) => !['zapatillas', 'ropa'].includes(parent?.categoria),
     }),
 
     // --- ESPECÍFICOS: IPHONES ---

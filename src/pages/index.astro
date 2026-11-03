@@ -70,7 +70,7 @@ const ejemploCompra = disponibles.find(p => p.categoria === 'zapatillas' && p.es
 
   <!-- Rejilla de 3 Banners de Categoría Grandes -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-    {categorias.map((c, i) => (
+    {categorias.filter(c=>c.slug !== 'ropa').map((c, i) => (
       <a 
         href={`/catalogo/${c.slug}/`}
         class="group relative aspect-[3/4] sm:aspect-[4/5] md:aspect-[4/4] w-full overflow-hidden bg-zinc-950 block"

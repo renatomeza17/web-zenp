@@ -1,6 +1,7 @@
 export const logosMarcas: Record<string,string> = {
   jordan:'/marcas/jordan.svg', nike:'/marcas/nike.svg', adidas:'/marcas/adidas.svg', apple:'/marcas/apple.svg',
   razer:'/marcas/razer.svg', 'new balance':'/marcas/newbalance.svg',
+  lacoste:'/marcas/lacoste.svg', on:'/marcas/on.png', 'on running':'/marcas/on.png', onrunning:'/marcas/on.png',
 };
 
 // Selección de fotos reales de public/entregas. Agrega aquí nuevas fotos para mostrarlas.

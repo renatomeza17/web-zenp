@@ -18,6 +18,8 @@ function importe(precio: unknown, oferta: unknown) {
     : { valor: precio, anterior: null };
 }
 
+export const usaTallas = (p: Pick<Producto,'categoria'>) => p.categoria === 'zapatillas' || p.categoria === 'ropa';
+
 export function tallasProducto(p: Producto): string[] {
   return [...new Set([...(p.tallas || []), ...(p.preciosPorTalla || []).map((v) => v.talla)])];
 }
@@ -31,14 +33,14 @@ export const generoEtiqueta = (p: Pick<Producto, 'genero'>) =>
 
 // Reconoce también mayúsculas y espacios adicionales del texto guardado en Sanity.
 export function esTallaAPedido(p: Producto, talla = '') {
-  return p.categoria === 'zapatillas' && /\ba\s+pedido\b/i.test(talla.trim());
+  return usaTallas(p) && /\ba\s+pedido\b/i.test(talla.trim());
 }
 
 export function precioProducto(p: Producto, talla = '') {
   const mostrarDesde = Boolean(p.precioDesde) || (p.categoria === 'zapatillas' && (p.estado === 'pedido' || tallasProducto(p).some(t => esTallaAPedido(p,t))));
   const iphonePedido = p.categoria === 'iphones' && p.estado === 'pedido';
   const divisa: Divisa = iphonePedido ? 'USD' : (p.moneda || 'PEN');
-  const variantes = p.categoria === 'zapatillas' ? p.preciosPorTalla || [] : [];
+  const variantes = usaTallas(p) ? p.preciosPorTalla || [] : [];
   const tieneVariantesConPrecio = variantes.length > 0;
 
   // 1. Precio base general configurado en Sanity
@@ -91,7 +93,7 @@ export function precioProducto(p: Producto, talla = '') {
 }
 
 export function mensajeProducto(p: Producto, seleccion = '') {
-  const precio = precioProducto(p, p.categoria === 'zapatillas' ? seleccion : '');
+  const precio = precioProducto(p, usaTallas(p) ? seleccion : '');
   const tallaPedido = esTallaAPedido(p,seleccion);
   const estado = tallaPedido ? 'A pedido / importación' : {
     stock: 'En stock',
@@ -103,7 +105,7 @@ export function mensajeProducto(p: Producto, seleccion = '') {
     `Hola ZENP, ${p.estado === 'agotado' ? 'quisiera consultar la reposición de' : 'me interesa'} ${p.nombre}. ` +
     `Precio publicado: ${precio.texto}. Disponibilidad: ${estado}.` +
     (tallaPedido ? ' Quisiera consultar otra talla para importar. Mi talla es: ____. Por favor confirmar precio y plazo.' : '') +
-    (p.categoria === 'zapatillas'
+    (usaTallas(p)
       ? ` ${generoEtiqueta(p) || 'Tallaje por confirmar'}. Talla: ${seleccion || 'por confirmar'}.`
       : '') +
     (p.capacidad ? ` Capacidad: ${seleccion || p.capacidad}.` : '') +

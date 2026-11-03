@@ -23,13 +23,14 @@ const filtros = [
         { key: 'capacity', label: 'Capacidad', values: unique('capacidad') }
       ]
     : []),
-  ...(categoria === 'tecnologia'
+  ...(categoria === 'ropa' ? [{key:'size',label:'Talla',values:[...new Set(productos.flatMap(p=>tallasProducto(p).map(t=>t.trim())))].sort()}] : []),
+  ...(['tecnologia','ropa'].includes(categoria || '')
     ? [{ key: 'type', label: 'Tipo', values: unique('tipo') }]
     : [])
 ];
 ---
 
-<div class="catalog scroll-mt-28" data-catalog>
+<div class="catalog scroll-mt-28" data-catalog data-size-system={categoria === 'ropa' ? 'ropa' : 'us'}>
   <!-- Barra de búsqueda superior -->
   <div class="catalog-search [display:flex] [align-items:center] [gap:15px] [background:var(--paper)] [padding:17px_20px] [margin-bottom:30px] [&_input]:[border:0] [&_input]:[background:transparent] [&_input]:[width:100%] [&_input]:[font-size:13px] [&_input]:[outline-offset:8px] max-[760px]:[padding:15px] max-[760px]:[&_input]:[font-size:12px]">
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -69,7 +70,7 @@ const filtros = [
         </label>
       ))}
 
-      {categoria === 'zapatillas' && <label>Género<select data-filter="gender"><option value="">Todos</option><option value="hombre">Hombre</option><option value="mujer">Mujer</option></select></label>}
+      {['zapatillas','ropa'].includes(categoria || '') && <label>Género<select data-filter="gender"><option value="">Todos</option><option value="hombre">Hombre</option><option value="mujer">Mujer</option></select></label>}
       <!-- Filtro por Estado/Disponibilidad -->
       <label>
         Disponibilidad
@@ -187,7 +188,7 @@ const filtros = [
       selects.forEach(select => {
         const key = select.dataset.filter!;
         let value = params.get(parametrosFiltro[key] || key) ?? params.get(key) ?? '';
-        if (key === 'size' && value) value = normalizarTallaUS(value) || value;
+        if (key === 'size' && value && root!.dataset.sizeSystem !== 'ropa') value = normalizarTallaUS(value) || value;
         select.querySelectorAll('[data-unknown]').forEach(option => option.remove());
         if (value && ![...select.options].some(option => option.value === value)) {
           const option = new Option(`${value} (sin coincidencias)`,value); option.dataset.unknown = 'true'; select.add(option);

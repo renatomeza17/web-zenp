@@ -22,5 +22,6 @@ export function menuCatalogo(productos: Producto[]) {
       ...unique(productos.filter(p => p.categoria === 'tecnologia').map(p => p.tipo || '')).map(nombre => ({nombre,href:urlCatalogo('tecnologia',{type:nombre})})),
       ...unique(productos.filter(p => p.categoria === 'tecnologia').map(p => p.marca)).map(nombre => ({nombre,href:urlCatalogo('tecnologia',{brand:nombre})})),
     ] },
+    { titulo:'Ropa', enlace:urlCatalogo('ropa'), marcas:unique(productos.filter(p=>p.categoria==='ropa').map(p=>p.marca)).map(nombre=>({nombre,href:urlCatalogo('ropa',{brand:nombre})})) },
   ];
 }

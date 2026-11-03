@@ -12,7 +12,7 @@ const marcas = [...new Set(productos.map(p => p.marca).filter(Boolean))].sort((a
   <div class="mb-6 flex items-center justify-between gap-5"><h2 id="marcas-titulo" class="text-xs font-medium tracking-wide text-zinc-900">Compra por marca</h2><span class="text-[10px] tracking-[1.5px] text-zinc-500 uppercase">Elige tu universo</span></div>
   <div class="flex snap-x snap-mandatory overflow-x-auto border-y border-zinc-200 py-2 sm:justify-around">
     {marcas.map(marca => <a href={marca.href} aria-label={`Explorar productos ${marca.nombre}`} class="group flex min-h-28 min-w-32 flex-1 snap-start flex-col items-center justify-center gap-3 px-5 transition-colors hover:bg-zinc-50 sm:min-w-28">
-      <div class="flex h-11 items-center justify-center">{marca.logo ? <img src={marca.logo} alt="" width="78" height="40" loading="lazy" class="max-h-10 w-20 object-contain brightness-0 transition-transform duration-300 group-hover:scale-105"/> : <span class="font-['Space_Grotesk'] text-xl font-bold tracking-tight text-zinc-950 uppercase">{marca.nombre}</span>}</div>
+      <div class="flex h-11 items-center justify-center">{marca.logo ? <img src={marca.logo} alt="" width="78" height="40" loading="lazy" class:list={["max-h-10 w-20 object-contain transition-transform duration-300",marca.logo.endsWith("/on.png") ? "invert scale-125 group-hover:scale-[1.35]" : "brightness-0 group-hover:scale-105"]}/> : <span class="font-['Space_Grotesk'] text-xl font-bold tracking-tight text-zinc-950 uppercase">{marca.nombre}</span>}</div>
       <span class="text-[9px] tracking-[1.5px] text-zinc-500 uppercase">{marca.nombre} </span>
     </a>)}
   </div>

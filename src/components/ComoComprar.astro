@@ -1,10 +1,10 @@
 ---
 import type { Producto } from '../data/productos';
 import { etiquetaTalla } from '../lib/tallas';
-import { tallasProducto, precioProducto, mensajeProducto } from '../lib/precios';
+import { tallasProducto, precioProducto, mensajeProducto, usaTallas } from '../lib/precios';
 import { whatsappUrl } from '../data/tienda';
 const { producto } = Astro.props as {producto?:Producto};
-const opciones = producto ? producto.categoria === 'zapatillas' ? tallasProducto(producto) : producto.capacidad ? [producto.capacidad] : [] : [];
+const opciones = producto ? usaTallas(producto) ? tallasProducto(producto) : producto.capacidad ? [producto.capacidad] : [] : [];
 const seleccion = opciones[0] || '';
 const pasos = [
   {titulo:'Elige el producto y tu talla.',texto:'Abre su ficha, revisa las fotos y selecciona tu talla o capacidad.'},
@@ -22,7 +22,7 @@ const pasos = [
       <div class="mb-5 flex items-center justify-between border-b border-zinc-100 pb-4"><span class="text-xs font-semibold tracking-wide text-zinc-950">ZENP / CÓMO COMPRAR</span><span class="text-[9px] tracking-wider text-zinc-400 uppercase">Ejemplo interactivo</span></div>
       <div id="compra-panel-0" data-buy-panel>
         {producto ? <><a href={`/producto/${producto.id}/`} class="mb-5 flex items-center gap-4"><img src={producto.imagenes[0] || '/producto-placeholder.svg'} alt={producto.nombre} width="120" height="120" class="h-24 w-24 shrink-0 object-contain" loading="lazy"/><div><p class="mb-1 text-[9px] tracking-wide text-zinc-400 uppercase">{producto.marca}</p><h3 class="text-sm font-medium leading-6 text-zinc-950">{producto.nombre}</h3></div></a>
-        {opciones.length>0 && <label class="block text-[11px] text-zinc-500">{producto.categoria==='zapatillas'?'Elige tu talla':'Capacidad'}<select data-demo-variant class="mt-2 w-full border border-zinc-200 bg-white px-3 py-3 text-xs text-zinc-950">{opciones.map(opcion=><option value={opcion}>{producto.categoria==='zapatillas'?etiquetaTalla(opcion):opcion}</option>)}</select></label>}
+        {opciones.length>0 && <label class="block text-[11px] text-zinc-500">{usaTallas(producto)?'Elige tu talla':'Capacidad'}<select data-demo-variant class="mt-2 w-full border border-zinc-200 bg-white px-3 py-3 text-xs text-zinc-950">{opciones.map(opcion=><option value={opcion}>{producto.categoria==='zapatillas'?etiquetaTalla(opcion):opcion}</option>)}</select></label>}
         <p data-demo-price class="mt-4 text-base font-semibold text-zinc-950">{precioProducto(producto,seleccion).texto}</p><button type="button" data-buy-next="1" class="mt-5 flex w-full items-center justify-between bg-zinc-950 px-4 py-3.5 text-xs text-white hover:bg-[#42745b]">Ver el mensaje preparado <span aria-hidden="true">→</span></button></> : <a href="/catalogo/" class="text-sm underline">Explora el catálogo para elegir tu producto</a>}
       </div>
       <div id="compra-panel-1" data-buy-panel class="mt-6">

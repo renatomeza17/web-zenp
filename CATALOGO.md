@@ -165,3 +165,9 @@ Mantén el producto como En stock y agrega `Otras tallas a pedido` a su lista de
 ## Administración de banners
 
 Guía completa en `BANNERS.md`. Esquema `portada`, documento único `portada`, lista de banners ordenable por arrastre. Los precios dibujados en una imagen deben actualizarse reemplazando el diseño. El Studio y los cambios de contenido requieren publicación; la web estática necesita una reconstrucción o webhook.
+
+## Ropa (shorts, polos y otras prendas)
+
+Se añadió la categoría `ropa` tanto al esquema de Sanity como al catálogo `/catalogo/ropa/`, menú y footer. En Sanity selecciona Ropa; escribe Shorts en Tipo de producto; agrega cada talla como un elemento separado (S, M, L o talla numérica). Género y precios por talla también están disponibles. Las prendas usan tallas originales, sin prefijo US ni guía de calzado. El precio y mensaje de WhatsApp siguen la talla seleccionada.
+
+Para activar el formulario en el panel publicado: desde la raíz ejecuta `cd studio` y `npm run deploy`. Publica también estos cambios de la web en GitHub/Vercel antes de cargar prendas; la versión anterior de la web no reconoce la categoría nueva. No es necesario crear un nuevo proyecto de Sanity ni migrar productos existentes.

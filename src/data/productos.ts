@@ -5,7 +5,7 @@ export interface PrecioTalla {
 }
 export interface Producto {
  moneda?: 'PEN'|'USD'; precioPedidoUSD?:number; precioOfertaPedidoUSD?:number; precioDesde?:boolean; genero?:'mujer'|'hombre'|'unisex'; preciosPorTalla?:PrecioTalla[];
- id: number|string; nombre:string; categoria:'zapatillas'|'iphones'|'tecnologia'; marca:string; modelo:string; tipo?:string; condicion?:string; precio:number; precioOferta?:number; imagenes:string[]; estado:'stock'|'pedido'|'agotado'; tallas?:string[]; capacidad?:string; bateria?:string; destacado?:boolean; descripcion?:string;
+ id: number|string; nombre:string; categoria:'zapatillas'|'iphones'|'tecnologia'|'ropa'; marca:string; modelo:string; tipo?:string; condicion?:string; precio:number; precioOferta?:number; imagenes:string[]; estado:'stock'|'pedido'|'agotado'; tallas?:string[]; capacidad?:string; bateria?:string; destacado?:boolean; descripcion?:string;
 }
 const foto = (id:string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=85`;
 const sneaker = foto('photo-1595950653106-6c9ebd614d3a');
