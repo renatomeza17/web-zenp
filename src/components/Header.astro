@@ -83,12 +83,13 @@ const navMenu = menuCatalogo(await getProductos());
 
       <!-- Botón WhatsApp -->
       <a 
-        class="header-wa flex gap-[8px] items-center text-[12px] py-[10px] px-[16px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl max-[1279px]:p-[9px] transition active:scale-95 shadow-lg shadow-emerald-500/20" 
+        class="header-wa flex gap-[8px] items-center text-[12px] py-[10px] px-[16px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl max-[1279px]:p-[9px] transition active:scale-95 shadow-lg shadow-emerald-500/20"
+        aria-label="Consultar por WhatsApp" 
         href={whatsappUrl()} 
         target="_blank" 
         rel="noopener noreferrer"
       >
-        <img src="/brand-whatsapp.svg" width="18" height="18" alt="" class="brightness-0 invert" onerror="this.style.display='none'" />
+        <img src="/brand-whatsapp.svg" width="18" height="18" alt="" class="brightness-0 invert" />
         <span class="max-[1279px]:hidden">Hablemos</span>
       </a>
 

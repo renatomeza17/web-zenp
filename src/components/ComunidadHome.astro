@@ -9,8 +9,8 @@ const unaFoto = fotosComunidad.length === 1;
     <div class="flex flex-col items-start gap-5">
       <div><p class="mb-3 text-[10px] font-medium uppercase tracking-[2px] text-zinc-500">Entregas ZENP</p>
       <h2 id="comunidad-titulo" class="max-w-xl font-['Space_Grotesk'] text-3xl font-medium tracking-tight text-zinc-950 sm:text-4xl">Pedidos entregados.</h2>
-      <p class="mt-4 max-w-md text-xs leading-6 text-zinc-500">De nuestro catálogo a tus manos. Aquí compartimos algunas de nuestras entregas, coordinadas directamente con cada cliente.</p>
-      <p class="mt-3 max-w-md text-xs leading-6 text-zinc-500">Puedes recoger tu pedido o te lo envíamos a la puerta de tu casa.</p></div>
+      <p class="mt-5 max-w-3xl text-sm leading-7 text-zinc-500">Aquí compartimos algunas de nuestras entregas, coordinadas directamente con cada cliente.</p>
+      <p class="mt-4 max-w-3xl text-sm leading-7 text-zinc-500">Puedes recoger tu pedido o te lo enviamos a la puerta de tu casa.</p></div>
       {instagram && <a href={instagram.url} target="_blank" rel="noopener noreferrer" class="inline-block border-b border-zinc-400 pb-1 text-xs font-medium text-zinc-800">Síguenos en Instagram</a>}
     </div>
     {fotosComunidad.length > 0 && <div class:list={[unaFoto ? 'flex justify-center md:justify-end' : 'mt-7 grid grid-cols-2 gap-3 md:grid-cols-4']}>

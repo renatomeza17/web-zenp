@@ -1,10 +1,64 @@
 ---
-import EntregasInfo from '../components/EntregasInfo.astro';
 import Layout from '../layouts/Layout.astro';
+import MapaUbicacion from '../components/MapaUbicacion.astro';
+import IconoRed from '../components/IconoRed.astro';
 import { tienda, whatsappUrl } from '../data/tienda';
 ---
-<Layout title="Contáctanos — ZENP"><main id="contenido" class="container content-page [width:min(1240px,calc(100%_-_80px))] [margin:auto] [padding:55px_0_90px] max-[1100px]:[width:calc(100%_-_48px)] max-[760px]:[width:calc(100%_-_36px)] max-[760px]:[padding-top:35px]"><p class="breadcrumb [font-size:10px] [color:var(--muted)] [margin-bottom:45px] max-[760px]:[margin-bottom:30px]"><a href="/">Inicio</a> / Contacto</p><div class="page-heading [margin-bottom:35px] [&_h1]:[font-family:'Space_Grotesk'] [&_h1]:[font-size:64px] [&_h1]:[letter-spacing:-3px] [&_h1]:[line-height:1.1] [&_h1]:[font-weight:500] [&>p:last-child]:[font-size:14px] [&>p:last-child]:[color:var(--muted)] [&>p:last-child]:[line-height:1.8] [&>p:last-child]:[margin-top:15px] max-[760px]:[&_h1]:[font-size:48px] max-[760px]:[&_h1]:[letter-spacing:-2px]"><p class="eyebrow [font-size:10px] [text-transform:uppercase] [letter-spacing:1.8px] [font-weight:600] [color:var(--muted)] [display:block] [margin-bottom:18px]">Una conversación para empezar</p><h1>Hablemos<span class="accent [color:var(--green)]">.</span></h1><p>¿Un producto, una importación o una duda? Estamos a un mensaje.</p></div><div class="prose-grid [display:grid] [grid-template-columns:1.2fr_1fr] [gap:70px] [margin-top:50px] [&_h2]:[font-size:30px] [&_h2]:[letter-spacing:-1px] [&_h2]:[line-height:1.3] [&_h2]:[font-weight:500] [&_h2]:[margin-bottom:20px] [&_p]:[line-height:1.9] [&_p]:[color:var(--muted)] [&_p]:[margin-bottom:20px] max-[760px]:[grid-template-columns:1fr] max-[760px]:[gap:25px] max-[760px]:[margin-top:30px]"><div><h2>Tu próximo pedido<br/>empieza aquí.</h2><p>Puedes recoger tu pedido en Av. Angamos Oeste 1635, Miraflores, coordinando previamente por WhatsApp. También hacemos contraentrega en todo Lima por S/ 10 y envíos a todo el Perú.</p><a class="button dark [display:inline-flex] [align-items:center] [justify-content:center] [gap:18px] [padding:15px_22px] [font-size:12px] [font-weight:500] [border:0] [background:var(--ink)] [color:white] [&:hover]:[background:var(--green)] [&:hover]:[color:white]" href={whatsappUrl()} target="_blank" rel="noopener noreferrer">WhatsApp · +51 934 870 906</a><p style="margin-top:30px">También nos encuentras en:</p><div class="hero-actions [display:flex] [gap:26px] [align-items:center] [margin-top:30px] max-[1100px]:[gap:15px] max-[1100px]:[flex-wrap:wrap] max-[760px]:[margin-top:22px]">{tienda.redes.map(red => <a class="text-link [font-size:12px] [border-bottom:1px_solid_#bbbfb7] [padding-bottom:5px] [display:inline-block]" href={red.url} target="_blank" rel="noopener noreferrer">{red.nombre}</a>)}</div></div><div class="info-panel [background:var(--paper)] [padding:35px] [&_h3]:[font-size:17px] [&_h3]:[margin:0_0_12px] max-[760px]:[padding:25px]"><form class="contact-form [display:grid] [gap:18px] [&_label]:[font-size:12px] [&_input]:[display:block] [&_input]:[width:100%] [&_input]:[border:1px_solid_#d9ddd4] [&_input]:[background:white] [&_input]:[padding:13px] [&_input]:[margin-top:7px] [&_textarea]:[display:block] [&_textarea]:[width:100%] [&_textarea]:[border:1px_solid_#d9ddd4] [&_textarea]:[background:white] [&_textarea]:[padding:13px] [&_textarea]:[margin-top:7px] [&_textarea]:[min-height:130px] [&_textarea]:[resize:vertical] [&_p]:[font-size:11px]" id="contact-form"><h3>Cuéntanos qué estás buscando</h3><label>Tu nombre<input name="nombre" required maxlength="80" autocomplete="given-name" placeholder="¿Cómo te llamas?"/></label><label>Ciudad o distrito<input name="ciudad" required maxlength="100" autocomplete="address-level2" placeholder="¿Dónde recibirías tu pedido?"/></label><label>Tu consulta<textarea name="mensaje" required maxlength="1500" placeholder="Modelo, talla, capacidad o cualquier duda…"></textarea></label><button class="button dark [display:inline-flex] [align-items:center] [justify-content:center] [gap:18px] [padding:15px_22px] [font-size:12px] [font-weight:500] [border:0] [background:var(--ink)] [color:white] [&:hover]:[background:var(--green)] [&:hover]:[color:white]" type="submit">Continuar en WhatsApp</button><p>Al continuar se abrirá WhatsApp con tu mensaje listo para enviar. Este formulario no almacena tus datos.</p></form></div></div><EntregasInfo/></main></Layout>
+<Layout title="Contáctanos — ZENP" description="Conversa con ZENP por WhatsApp. Recojo en Miraflores, contraentrega en Lima por S/ 10 y envíos a todo el Perú.">
+  <main id="contenido" class="mx-auto max-w-7xl px-5 pt-9 pb-16 sm:px-8 sm:pt-14 sm:pb-20">
+    <nav aria-label="Ruta de navegación" class="mb-9 text-[11px] text-zinc-500"><a href="/" class="hover:text-zinc-900">Inicio</a> / Contacto</nav>
+    <header class="mb-9 sm:mb-12">
+      <p class="mb-4 text-[10px] font-semibold uppercase tracking-[2px] text-zinc-500">Directo con ZENP</p>
+      <h1 class="font-['Space_Grotesk'] text-5xl font-medium tracking-tight text-zinc-950 sm:text-6xl">Hablemos<span class="text-[#42745b]">.</span></h1>
+      <p class="mt-4 max-w-lg text-sm leading-7 text-zinc-500">Escríbenos por WhatsApp o prepara tu consulta desde aquí.</p>
+    </header>
+
+    <div class="grid min-w-0 items-start gap-9 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+      <section aria-labelledby="contacto-directo" class="min-w-0">
+        <h2 id="contacto-directo" class="text-sm font-medium text-zinc-900">Contacto directo</h2>
+        <div class="mt-5">
+          <p class="mb-2 text-xs text-zinc-500">WhatsApp</p>
+          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-zinc-900 transition-opacity hover:opacity-70">
+            <img src="/redes/whatsapp.svg" width="44" height="44" alt="" class="h-11 w-11 shrink-0 object-contain"/>
+            <span class="font-['Space_Grotesk'] text-3xl font-medium leading-none tracking-tight">934 870 906</span>
+          </a>
+        </div>
+        <div class="mt-7">
+          <h3 class="text-xs font-medium text-zinc-900">Redes sociales</h3>
+          <div class="mt-4 flex flex-wrap gap-2.5">
+            {tienda.redes.map(red=><a href={red.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 py-3 pr-4 text-sm text-zinc-700 transition-opacity hover:opacity-70"><IconoRed nombre={red.nombre}/>{red.nombre}</a>)}
+          </div>
+        </div>
+
+      </section>
+
+      <section class="min-w-0 border border-zinc-200 bg-[#f6f6f3] p-6 sm:p-8" aria-labelledby="consulta-titulo">
+        <h2 id="consulta-titulo" class="font-['Space_Grotesk'] text-2xl font-medium tracking-tight text-zinc-900">Tu consulta</h2>
+        <form id="contact-form" class="mt-6 grid gap-5 [&_label]:text-xs [&_label]:font-medium [&_label]:text-zinc-800 [&_input]:mt-2 [&_input]:block [&_input]:w-full [&_input]:min-w-0 [&_input]:border [&_input]:border-zinc-300 [&_input]:bg-white [&_input]:px-3 [&_input]:py-3 [&_input]:font-normal [&_textarea]:mt-2 [&_textarea]:block [&_textarea]:w-full [&_textarea]:resize-y [&_textarea]:border [&_textarea]:border-zinc-300 [&_textarea]:bg-white [&_textarea]:px-3 [&_textarea]:py-3 [&_textarea]:font-normal [&_input]:focus:outline-[#42745b] [&_textarea]:focus:outline-[#42745b]">
+          <label>Tu nombre<input name="nombre" required maxlength="80" autocomplete="given-name" placeholder="¿Cómo te llamas?"/></label>
+          <label>Ciudad o distrito<input name="ciudad" required maxlength="100" autocomplete="address-level2" placeholder="¿Dónde recibirías tu pedido?"/></label>
+          <label>Tu consulta<textarea name="mensaje" required maxlength="1500" rows="4" placeholder="Modelo, talla, capacidad o cualquier duda…"></textarea></label>
+          <button type="submit" class="flex items-center justify-center gap-3 bg-zinc-900 px-5 py-3.5 text-xs font-medium text-white transition-colors hover:bg-[#42745b] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#42745b]">Continuar en WhatsApp<img src="/brand-whatsapp.svg" width="18" height="18" alt=""/></button>
+          <p class="text-[11px] leading-5 text-zinc-500">Se abrirá WhatsApp con tu mensaje preparado para que lo revises y envíes. Este formulario no almacena tus datos.</p>
+        </form>
+      </section>
+    </div>
+    <MapaUbicacion/>
+
+  </main>
+</Layout>
+
 <script>
-import { whatsappUrl } from '../data/tienda';
-document.querySelector<HTMLFormElement>('#contact-form')?.addEventListener('submit',event => {event.preventDefault();const form = event.currentTarget as HTMLFormElement;const data = new FormData(form);location.href = whatsappUrl(`Hola ZENP, soy ${data.get('nombre')}. Ciudad/distrito: ${data.get('ciudad')}. Consulta: ${data.get('mensaje')}`);});
+  import { whatsappUrl } from '../data/tienda';
+
+  document
+    .querySelector<HTMLFormElement>('#contact-form')
+    ?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget as HTMLFormElement;
+      const data = new FormData(form);
+
+      const mensaje = `Hola ZENP, soy ${data.get('nombre')}. Ciudad/distrito: ${data.get('ciudad')}. Consulta: ${data.get('mensaje')}`;
+      location.href = whatsappUrl(mensaje);
+    });
 </script>

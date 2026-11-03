@@ -1,0 +1,5 @@
+---
+const { nombre } = Astro.props as {nombre:string};
+const iconos:Record<string,string> = {Instagram:'instagram',Facebook:'facebook',TikTok:'tiktok'};
+---
+<img src={`/redes/${iconos[nombre] || 'instagram'}.svg`} width="36" height="36" alt="" class="h-9 w-9 shrink-0 object-contain"/>
